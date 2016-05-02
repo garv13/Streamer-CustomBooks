@@ -1,0 +1,2 @@
+MainPackage=C:\Users\garvj\Desktop\Heist\Heist\bin\ARM\Release\Heist_1.0.23.0_ARM.appx
+SymbolPackage=C:\Users\garvj\Desktop\streamerPackage\Heist_1.0.23.0_Test\Heist_1.0.23.0_ARM.appxsym
