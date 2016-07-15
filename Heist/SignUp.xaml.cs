@@ -127,6 +127,7 @@ namespace Heist
                     a.username = UserName.Text;
                     a.wallet = 0;
                     a.purchases = "";
+                    a.collections = "";
                     await App.MobileService.GetTable<User>().InsertAsync(a);
                     MessageDialog msgbox = new MessageDialog("Register Successful:):)");
                     await msgbox.ShowAsync();

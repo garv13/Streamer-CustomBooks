@@ -104,7 +104,7 @@ namespace Heist
                     }
                 }
             }
-            FullCost.Text = Price.ToString();
+            FullCost.Text += Price.ToString();
             for (int i = 0; i < ChapName.Count; i++)
             {
                 CollView temp = new CollView();
@@ -228,13 +228,14 @@ namespace Heist
                 User a = items3[0];
                 if (Chap.Count != 0)//
                 {
-                    foreach (string lol in Chap)//
+                    if (a.wallet > Price)
                     {
-                        items = await Table.Where(Chapter
-                          => Chapter.Id == lol).ToCollectionAsync();
+                        foreach (string lol in Chap)//
+                        {
+                            items = await Table.Where(Chapter
+                              => Chapter.Id == lol).ToCollectionAsync();
 
-                        if (a.wallet > Price)
-                        { 
+
                             a.purchases += items[0].bookid + "." + lol + ",";
                             a.wallet = a.wallet - items[0].price;
                             await Table3.UpdateAsync(a);
@@ -247,15 +248,16 @@ namespace Heist
                                         => Chapter.Id == lol).ToCollectionAsync();
                             Chapter b = items[0];
                             b.downloads++;
-                            await Table.UpdateAsync(b);           
-                        }
-                        else
-                        {
-                            LoadingBar.Visibility = Visibility.Collapsed;
-                            MessageDialog mess1 = new Windows.UI.Popups.MessageDialog("You have insufficient funds for this!");
-                            await mess1.ShowAsync();
+                            await Table.UpdateAsync(b);
                         }
                     }
+                    else
+                    {
+                        LoadingBar.Visibility = Visibility.Collapsed;
+                        MessageDialog mess1 = new Windows.UI.Popups.MessageDialog("You have insufficient funds for this!");
+                        await mess1.ShowAsync();
+                    }
+                    
                     List<string> sL = new List<string>();                    
                     ob.insert(rec.books); // collection object made
                     sL.Add(JsonConvert.SerializeObject(ob));

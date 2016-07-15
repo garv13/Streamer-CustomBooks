@@ -17,6 +17,8 @@ namespace Heist
 
         public string purchases { get; set; }
 
+        public string collections { get; set; }
+
         public string username { get; set; }
 
         public string password { get; set; }
