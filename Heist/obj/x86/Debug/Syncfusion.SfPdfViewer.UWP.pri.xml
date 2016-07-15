@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<PriInfo>
+	<ResourceMap name="Syncfusion.SfPdfViewer.UWP" version="1.0" primary="true">
+		<Qualifiers/>
+		<ResourceMapSubtree name="Files">
+			<ResourceMapSubtree name="Syncfusion.SfPdfViewer.UWP">
+				<NamedResource name="Syncfusion.SfPdfViewer.UWP.xr.xml" uri="ms-resource://Syncfusion.SfPdfViewer.UWP/Files/Syncfusion.SfPdfViewer.UWP/Syncfusion.SfPdfViewer.UWP.xr.xml">
+					<Candidate type="Path">
+						<Value>Syncfusion.SfPdfViewer.UWP\Syncfusion.SfPdfViewer.UWP.xr.xml</Value>
+					</Candidate>
+				</NamedResource>
+				<ResourceMapSubtree name="Implementation">
+					<ResourceMapSubtree name="UI">
+						<NamedResource name="PdfFlipView.xbf" uri="ms-resource://Syncfusion.SfPdfViewer.UWP/Files/Syncfusion.SfPdfViewer.UWP/Implementation/UI/PdfFlipView.xbf">
+							<Candidate type="EmbeddedData">
+								<Base64Value>[Embedded Binary Data]</Base64Value>
+							</Candidate>
+						</NamedResource>
+						<NamedResource name="TextSelectionCopyButton.xbf" uri="ms-resource://Syncfusion.SfPdfViewer.UWP/Files/Syncfusion.SfPdfViewer.UWP/Implementation/UI/TextSelectionCopyButton.xbf">
+							<Candidate type="EmbeddedData">
+								<Base64Value>[Embedded Binary Data]</Base64Value>
+							</Candidate>
+						</NamedResource>
+						<NamedResource name="ThumbnailView.xbf" uri="ms-resource://Syncfusion.SfPdfViewer.UWP/Files/Syncfusion.SfPdfViewer.UWP/Implementation/UI/ThumbnailView.xbf">
+							<Candidate type="EmbeddedData">
+								<Base64Value>[Embedded Binary Data]</Base64Value>
+							</Candidate>
+						</NamedResource>
+					</ResourceMapSubtree>
+				</ResourceMapSubtree>
+				<ResourceMapSubtree name="Properties">
+					<NamedResource name="Syncfusion.SfPDFViewer.UWP_2015.rd.xml" uri="ms-resource://Syncfusion.SfPdfViewer.UWP/Files/Syncfusion.SfPdfViewer.UWP/Properties/Syncfusion.SfPDFViewer.UWP_2015.rd.xml">
+						<Candidate type="Path">
+							<Value>Syncfusion.SfPdfViewer.UWP\Properties\Syncfusion.SfPDFViewer.UWP_2015.rd.xml</Value>
+						</Candidate>
+					</NamedResource>
+				</ResourceMapSubtree>
+				<ResourceMapSubtree name="Themes">
+					<NamedResource name="Generic.Advanced.xbf" uri="ms-resource://Syncfusion.SfPdfViewer.UWP/Files/Syncfusion.SfPdfViewer.UWP/Themes/Generic.Advanced.xbf">
+						<Candidate type="EmbeddedData">
+							<Base64Value>[Embedded Binary Data]</Base64Value>
+						</Candidate>
+					</NamedResource>
+					<NamedResource name="Generic.xbf" uri="ms-resource://Syncfusion.SfPdfViewer.UWP/Files/Syncfusion.SfPdfViewer.UWP/Themes/Generic.xbf">
+						<Candidate type="EmbeddedData">
+							<Base64Value>[Embedded Binary Data]</Base64Value>
+						</Candidate>
+					</NamedResource>
+				</ResourceMapSubtree>
+			</ResourceMapSubtree>
+		</ResourceMapSubtree>
+	</ResourceMap>
+</PriInfo>

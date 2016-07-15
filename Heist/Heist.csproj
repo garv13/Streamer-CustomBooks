@@ -128,6 +128,7 @@
     <Compile Include="CollectionSort.xaml.cs">
       <DependentUpon>CollectionSort.xaml</DependentUpon>
     </Compile>
+    <Compile Include="CollJson.cs" />
     <Compile Include="CollSort.cs" />
     <Compile Include="CollView.cs" />
     <Compile Include="CreateCollection.xaml.cs">

@@ -127,6 +127,8 @@ namespace Heist
             l.BookName = CollName.Text;
             l.UserName = testlol;
             sn = JsonConvert.SerializeObject(l);
+
+
             try
             {
                 StorageFolder mainFol = await ApplicationData.Current.LocalFolder.CreateFolderAsync(testlol + "My Collections", CreationCollisionOption.OpenIfExists);
@@ -135,7 +137,7 @@ namespace Heist
                     StorageFolder folder = await mainFol.CreateFolderAsync(CollName.Text, CreationCollisionOption.OpenIfExists);
                     if (folder != null)
                     {
-                        Uri url = new Uri("http://streamerpdf.azurewebsites.net/downloads");
+                        Uri url = new Uri("https://streamerpdf.azurewebsites.net/downloads");
                         HttpClient httpClient = new HttpClient();
                         var myClientHandler = new HttpClientHandler();
 

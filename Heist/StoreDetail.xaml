@@ -14,8 +14,8 @@
             </ResourceDictionary.MergedDictionaries>
 
             <DataTemplate x:Key="Standard3100x260ItemTemplate" ScrollViewer.VerticalScrollMode="Auto" ScrollViewer.VerticalScrollBarVisibility="Auto">
-                <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="10,10" Width="auto">
-                    
+                <Grid Margin="0,10,0,0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="0.05*"/>
                         <ColumnDefinition Width="0.3*"/>
@@ -25,10 +25,10 @@
                         <ColumnDefinition Width="0.3*"/>
                         <ColumnDefinition Width="0.1*"/>
                     </Grid.ColumnDefinitions>
-                    <TextBlock x:Name="Title" Text="{Binding Title}" FontFamily="Rockwell" TextWrapping="WrapWholeWords" Width="auto" FontSize="25" Foreground="White"  Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="15,0,0,0"/>
-                    <TextBlock x:Name="Price" Text="{Binding Price}" FontFamily="Rockwell" Margin="15,0" FontSize="25" Foreground="White"  Grid.Column="3" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
-                    <Button x:Name="Buy" Content="Buy" Margin="15,0" FontFamily="Rockwell" FontSize="20" Background="Transparent" Foreground="#A5C4FF" Click="Buy_Click" Grid.Column="5"/>
-                    <TextBlock x:Name="id" Visibility="Collapsed" Text="{Binding Id}" FontSize="15" Foreground="White" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="10,0,0,0"/>
+                    <TextBlock x:Name="Title" Text="{Binding Title}" FontFamily="Rockwell" TextWrapping="WrapWholeWords" FontSize="23" Foreground="White" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="5,0,0,0"/>
+                    <TextBlock x:Name="Price" Text="{Binding Price}" FontFamily="Rockwell" Margin="12,0,0,0" FontSize="20" Foreground="White" Grid.Column="3" HorizontalAlignment="Left" VerticalAlignment="Center" />
+                    <Button x:Name="Buy" Content="Buy" Margin="12,0,0,0" FontFamily="Rockwell" FontSize="15" Background="Transparent" Foreground="#A5C4FF" HorizontalAlignment="Left" VerticalAlignment="Center" Click="Buy_Click" Grid.Column="5"/>
+                    <TextBlock x:Name="id" Visibility="Collapsed" Text="{Binding Id}"/>
                 </Grid>
             </DataTemplate>
         </ResourceDictionary>
@@ -55,7 +55,7 @@
 
                 <RadioButton Tag="" Content="Wallet"  Style="{StaticResource SplitViewNavButtonStyle}"
                 Click="MenuButton1_Click" />
-                
+
                 <RadioButton x:Name="MenuButton5" Tag="" Content="About" Style="{StaticResource SplitViewNavButtonStyle}"
                          Click="MenuButton5_Click"/>
 
@@ -65,21 +65,24 @@
             </StackPanel>
         </SplitView.Pane>
         <SplitView.Content>
+
             <Grid Background="#292929">
+
+
                 <Grid.RowDefinitions>
                     <RowDefinition Height="0.06*"/>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
                 <ProgressBar HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="2" x:Name="LoadingBar"/>
                 <TextBlock Text="Store Details" Foreground="#CCCCCC" FontSize="20" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="5,5,0,0"/>
-                <Grid Grid.Row="1">
+                <Grid x:Name="descBoxGrid" Grid.Row="1">
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="0.3*"/>
-                        <RowDefinition Height="0.7*"/>
+                        <RowDefinition Height="0.4*"/>
+                        <RowDefinition Height="0.6*"/>
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="0.4*"/>
-                        <ColumnDefinition Width="0.6*"/>
+                        <ColumnDefinition Width="0.5*"/>
+                        <ColumnDefinition Width="0.5*"/>
                     </Grid.ColumnDefinitions>
                     <Grid Grid.ColumnSpan="2">
                         <Grid.ColumnDefinitions>
@@ -95,16 +98,16 @@
                                 <RowDefinition Height="0.3*"/>
                                 <RowDefinition Height="0.1*"/>
                             </Grid.RowDefinitions>
-                            <TextBlock x:Name="Title" Text="Title" FontFamily="Bodoni Regular" FontSize="25" Grid.Row="1"/>
-                            <TextBlock x:Name="Author" Text="Author" FontFamily="Bodoni Regular" FontSize="20" Grid.Row="2"/>
+                            <TextBlock x:Name="Title" Text="Title" FontFamily="Bodoni Regular" TextWrapping="WrapWholeWords" FontSize="25" VerticalAlignment="Center" HorizontalAlignment="Left" Grid.Row="1"/>
+                            <TextBlock x:Name="Author" Text="Author" FontFamily="Bodoni Regular" TextWrapping="WrapWholeWords" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="20" Grid.Row="2"/>
                             <Grid Grid.Row="3">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="0.5*"/>
                                     <ColumnDefinition Width="0.5*"/>
 
                                 </Grid.ColumnDefinitions>
-                                <TextBlock x:Name="FullCost" FontFamily="Bodoni Regular" Text="Full Book Cost:" FontSize="25"/>
-                                <Button Click="Button_Click" Grid.Column="1" HorizontalAlignment="Stretch" Foreground="#F9FFD2" VerticalAlignment="Stretch" Background="Transparent" Content="Buy Full Book" FontSize="20"/>
+                                <TextBlock x:Name="FullCost" TextWrapping="WrapWholeWords" IsTextScaleFactorEnabled="True" HorizontalAlignment="Left" VerticalAlignment="Center" FontFamily="Bodoni Regular" Text="Full Book Cost:" FontSize="25"/>
+                                <Button Click="Button_Click" IsTextScaleFactorEnabled="True" HorizontalAlignment="Left" VerticalAlignment="Stretch" UseSystemFocusVisuals="True" Grid.Column="1" Foreground="#F9FFD2" Background="Transparent" Content="Buy Full Book" FontSize="20"/>
                             </Grid>
 
                         </Grid>
@@ -119,7 +122,7 @@
                         ItemsSource="{Binding}"                       
                         ItemTemplate="{StaticResource Standard3100x260ItemTemplate}"
                         SelectionMode="None"          
-                        IsSwipeEnabled="false"
+                        IsSwipeEnabled="True"
                         IsItemClickEnabled="False"                
                         ScrollViewer.HorizontalScrollMode="Auto"
                         ScrollViewer.HorizontalScrollBarVisibility="Auto"
@@ -138,17 +141,17 @@
                             <ColumnDefinition Width="0.7*"/>
                             <ColumnDefinition Width="0.3*"/>
                         </Grid.ColumnDefinitions>
-                        <Grid Background="#757575" Grid.ColumnSpan="2" Grid.Row="0" Grid.RowSpan="3">
+                        <Grid HorizontalAlignment="Stretch" Background="#757575" Grid.ColumnSpan="2" Grid.Row="0" Grid.RowSpan="3">
                             <Grid.RowDefinitions>
-                                <RowDefinition Height="0.1*"/>
-                                <RowDefinition Height="0.7*"/>
+                                <RowDefinition Height="0.2*"/>
+                                <RowDefinition Height="0.8*"/>
                             </Grid.RowDefinitions>
-                            <TextBlock Text="Description" FontSize="22" Margin="0,5,0,0" HorizontalAlignment="Center" Foreground="White"/>
-                            <TextBlock x:Name="DescBlock" Grid.Row="1" Foreground="White" TextWrapping="WrapWholeWords" FontSize="18" Margin="5,5,5,5" Text="{Binding}"/>
+                            <TextBlock Text="Description" FontSize="22" Margin="0,5,0,0" TextWrapping="WrapWholeWords" IsTextScaleFactorEnabled="True" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="White"/>
+                            <TextBlock x:Name="DescBlock" Grid.Row="1" Foreground="White" TextWrapping="WrapWholeWords" HorizontalAlignment="Left" VerticalAlignment="Stretch" FontSize="18" Margin="3,5,2,5" Text="{Binding}"/>
                         </Grid>
                     </Grid>
                 </Grid>
             </Grid>
         </SplitView.Content>
     </SplitView>
-    </Page>
+</Page>

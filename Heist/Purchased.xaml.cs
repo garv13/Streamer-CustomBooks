@@ -1,4 +1,5 @@
 ﻿using Microsoft.WindowsAzure.MobileServices;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -100,6 +101,31 @@ namespace Heist
                 await (new MessageDialog("Can't Update Now")).ShowAsync();
             }
         }
+
+
+        //private async void load_Collectios()
+        //{
+        //    try
+        //    {
+        //        StorageFolder mainFol = await ApplicationData.Current.LocalFolder.CreateFolderAsync(testlol + "My Books", CreationCollisionOption.OpenIfExists);
+        //        if (mainFol != null)
+        //        {
+        //            StorageFile file = await mainFol.GetFileAsync("collJson.txt");
+        //            string str = await FileIO.ReadTextAsync(file);
+        //            CollJson ob1;
+        //            ob1 = JsonConvert.DeserializeObject<CollJson>(str);
+        //            ob1.first();
+
+        //            items2 = await Table2.Where(Book
+        //                    => lis.Contains(Book)).ToCollectionAsync();
+
+        //        }
+        //    }
+        //    catch (Exception)
+        //    {
+        //        await (new MessageDialog("No collections Purchased")).ShowAsync();
+        //    }
+        //}
 
         private void StoreListView_ItemClick(object sender, ItemClickEventArgs e)
         {

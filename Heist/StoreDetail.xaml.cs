@@ -39,7 +39,35 @@ namespace Heist
         public StoreDetail()
         {
             this.InitializeComponent();
-           
+            Window.Current.SizeChanged += Current_SizeChanged;
+        }
+
+        private void Current_SizeChanged(object sender, Windows.UI.Core.WindowSizeChangedEventArgs e)
+        {
+            var a = Window.Current.Bounds;
+            if (a.Width < 720)
+            {
+                
+                var col = new ColumnDefinition();
+                col.Width = new GridLength(a.Width - 200);
+                descBoxGrid.ColumnDefinitions.Add(col);
+                col = new ColumnDefinition();
+                col.Width = new GridLength(200);
+                descBoxGrid.ColumnDefinitions.Add(col);
+                descBoxGrid.HorizontalAlignment = HorizontalAlignment.Right;
+            }
+            else
+            {
+                var col = new ColumnDefinition();
+                col.Width = new GridLength(a.Width - 200);
+                descBoxGrid.ColumnDefinitions.Add(col);
+                col = new ColumnDefinition();
+                col.Width = new GridLength(200);
+                //descBoxGrid.ColumnDefinitions.Add(col);
+                //descBoxGrid.Width = a.Width / 2;
+                descBoxGrid.HorizontalAlignment = HorizontalAlignment.Center;
+                //StoreListView.Width = a.Width - descBoxGrid.Width;
+            }
         }
         protected async override void OnNavigatedTo(NavigationEventArgs e)
         {
@@ -186,6 +214,7 @@ namespace Heist
 
         private async void Buy_Click(object sender, RoutedEventArgs e)
         {
+
             //take rec.id to send in post with header id
             try
             {

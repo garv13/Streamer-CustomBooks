@@ -202,7 +202,7 @@ namespace Heist
                     ErrorBox.Visibility = Visibility.Visible;
                 }
             }
-            catch (Exception)
+            catch (Exception e)
             {
                 LoadingBar.Visibility = Visibility.Collapsed;
                 await (new MessageDialog("Oops Something Bad Happened :(:(")).ShowAsync();

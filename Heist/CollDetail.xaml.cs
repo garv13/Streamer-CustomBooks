@@ -7,6 +7,7 @@ using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.Storage;
@@ -35,12 +36,19 @@ namespace Heist
         private IMobileServiceTable<Chapter> Table = App.MobileService.GetTable<Chapter>();
         private MobileServiceCollection<Chapter, Chapter> items;
         int Price=0;
+        private IMobileServiceTable<Author> Table4 = App.MobileService.GetTable<Author>();
+        private MobileServiceCollection<Author, Author> items4;
         private IMobileServiceTable<Book> Table2 = App.MobileService.GetTable<Book>();
         private MobileServiceCollection<Book, Book> items2;
+        private IMobileServiceTable<User> Table3 = App.MobileService.GetTable<User>();
+        private MobileServiceCollection<User, User> items3;
         Collections rec;
+        string test;
         List<string> book;
         List<string> bookName;
+        List<string> ChapPur;
         List<string> Chap;
+        List<string> lis;
         List<string> ChapName;
         string testlol = "";
         List<CollView> CollList;
@@ -50,12 +58,17 @@ namespace Heist
             StorageFile sampleFile = await folder.GetFileAsync("sample.txt");
             testlol = await Windows.Storage.FileIO.ReadTextAsync(sampleFile);
 
+            items3 = await Table3.Where(User
+                             => User.username == testlol).ToCollectionAsync();
+            test = items3[0].purchases;
+
             CollList = new List<CollView>();
             book = new List<string>();
             Chap = new List<string>();
 
             bookName = new List<string>();
             ChapName = new List<string>();
+            ChapPur = new List<string>();
             LoadingBar.IsIndeterminate = true;
             LoadingBar.Visibility = Visibility.Visible;
             rec = new Collections();
@@ -72,16 +85,24 @@ namespace Heist
             }
             foreach (string lol in book)
             {
-                items2 = await Table2.Where(Book
-                                   => Book.Id == lol ).ToCollectionAsync();
-                bookName.Insert(bookName.Count, items2[0].Title);
+                    items2 = await Table2.Where(Book
+                                       => Book.Id == lol).ToCollectionAsync();
+                    bookName.Insert(bookName.Count, items2[0].Title);
             }
             foreach (string lol in Chap)
             {
                 items = await Table.Where(Chapter
-                                   => Chapter.Id == lol).ToCollectionAsync();
-                ChapName.Insert(ChapName.Count,items[0].Name);
-                Price += items[0].price;
+                    => Chapter.Id == lol).ToCollectionAsync();
+                ChapName.Insert(ChapName.Count, items[0].Name);
+
+                if (!test.Contains(lol))        //to check if chapter is already purchased or not 
+                {
+                    if (!test.Contains(items[0].bookid + ".full"))
+                    {
+                        ChapPur.Insert(ChapPur.Count, items[0].Id);
+                        Price += items[0].price;
+                    }
+                }
             }
             FullCost.Text = Price.ToString();
             for (int i = 0; i < ChapName.Count; i++)
@@ -138,10 +159,10 @@ namespace Heist
 
         private async void Button_Click(object sender, RoutedEventArgs e)
         {
+            await Check_Exist();
             LoadingBar.IsEnabled = true;
             LoadingBar.Visibility = Visibility.Visible;
-            App.mc.Clear();
-           
+            App.mc.Clear();  
             string sn = "";
             MeriCollection l = new MeriCollection();
             l.BookName = rec.Name;
@@ -149,16 +170,15 @@ namespace Heist
             sn = JsonConvert.SerializeObject(l);
             try
             {
+
                 StorageFolder mainFol = await ApplicationData.Current.LocalFolder.CreateFolderAsync(testlol + "My Collections", CreationCollisionOption.OpenIfExists);
                 if (mainFol != null)
                 {
                     StorageFolder folder = await mainFol.CreateFolderAsync(rec.Name, CreationCollisionOption.OpenIfExists);
                     if (folder != null)
                     {
-                        Uri url = new Uri("http://streamerpdf.azurewebsites.net/downloads");
+                        Uri url = new Uri("https://streamerpdf.azurewebsites.net/downloads");
                         HttpClient httpClient = new HttpClient();
-                        var myClientHandler = new HttpClientHandler();
-
 
                         foreach (string s in Chap)
                         {
@@ -197,5 +217,70 @@ namespace Heist
                 Frame.Navigate(typeof(MyCollection));
             }
         }
+
+        private async Task Check_Exist()
+        {
+            CollJson ob = new CollJson(rec.Name,testlol);
+            try
+            {
+                items3 = await Table3.Where(User
+                                  => User.username == testlol).ToCollectionAsync();
+                User a = items3[0];
+                if (Chap.Count != 0)//
+                {
+                    foreach (string lol in Chap)//
+                    {
+                        items = await Table.Where(Chapter
+                          => Chapter.Id == lol).ToCollectionAsync();
+
+                        if (a.wallet > Price)
+                        { 
+                            a.purchases += items[0].bookid + "." + lol + ",";
+                            a.wallet = a.wallet - items[0].price;
+                            await Table3.UpdateAsync(a);
+                            items4 = await Table4.Where(Author
+                                   => Author.books.Contains(items[0].bookid)).ToCollectionAsync();
+                            Author c = items4[0];
+                            c.wallet += items[0].price;
+                            await Table4.UpdateAsync(c);
+                            items = await Table.Where(Chapter
+                                        => Chapter.Id == lol).ToCollectionAsync();
+                            Chapter b = items[0];
+                            b.downloads++;
+                            await Table.UpdateAsync(b);           
+                        }
+                        else
+                        {
+                            LoadingBar.Visibility = Visibility.Collapsed;
+                            MessageDialog mess1 = new Windows.UI.Popups.MessageDialog("You have insufficient funds for this!");
+                            await mess1.ShowAsync();
+                        }
+                    }
+                    List<string> sL = new List<string>();                    
+                    ob.insert(rec.books); // collection object made
+                    sL.Add(JsonConvert.SerializeObject(ob));
+                    StorageFolder mainFol = await ApplicationData.Current.LocalFolder.CreateFolderAsync(testlol + "My Books", CreationCollisionOption.OpenIfExists);
+                    StorageFile useFile = await mainFol.CreateFileAsync("Collections.txt", CreationCollisionOption.OpenIfExists);
+                    await FileIO.AppendLinesAsync(useFile, sL);
+                    LoadingBar.Visibility = Visibility.Collapsed;
+                    MessageDialog mess = new MessageDialog("Purchase successfull! Download the file from My purchase section");
+                    await mess.ShowAsync();
+                    Frame.Navigate(typeof(Purchased));
+                }
+                else
+                {
+                    LoadingBar.Visibility = Visibility.Collapsed;
+                    MessageDialog mess = new Windows.UI.Popups.MessageDialog("You have already purchased this Please make collection from your Chapters!");
+                    await mess.ShowAsync();
+                }
+            }
+            catch (Exception)
+            {
+                MessageDialog msgbox = new MessageDialog("Something is not right try againg later");
+                await msgbox.ShowAsync();
+                LoadingBar.Visibility = Visibility.Collapsed;
+            }
+        }
+
     }
 }
