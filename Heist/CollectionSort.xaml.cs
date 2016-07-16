@@ -123,58 +123,58 @@ namespace Heist
             }
             LoadingBar.IsActive = true;
             string sn = "";
-            MeriCollection l = new MeriCollection();
-            l.BookName = CollName.Text;
-            l.UserName = testlol;
-            sn = JsonConvert.SerializeObject(l);
+            //MeriCollection l = new MeriCollection();
+            //l.BookName = CollName.Text;
+           // l.UserName = testlol;
+           // sn = JsonConvert.SerializeObject(l);
 
 
-            try
-            {
-                StorageFolder mainFol = await ApplicationData.Current.LocalFolder.CreateFolderAsync(testlol + "My Collections", CreationCollisionOption.OpenIfExists);
-                if (mainFol != null)
-                {
-                    StorageFolder folder = await mainFol.CreateFolderAsync(CollName.Text, CreationCollisionOption.OpenIfExists);
-                    if (folder != null)
-                    {
-                        Uri url = new Uri("https://streamerpdf.azurewebsites.net/downloads");
-                        HttpClient httpClient = new HttpClient();
-                        var myClientHandler = new HttpClientHandler();
+            //try
+            //{
+            //    StorageFolder mainFol = await ApplicationData.Current.LocalFolder.CreateFolderAsync(testlol + "My Collections", CreationCollisionOption.OpenIfExists);
+            //    if (mainFol != null)
+            //    {
+            //        StorageFolder folder = await mainFol.CreateFolderAsync(CollName.Text, CreationCollisionOption.OpenIfExists);
+            //        if (folder != null)
+            //        {
+            //            Uri url = new Uri("https://streamerpdf.azurewebsites.net/downloads");
+            //            HttpClient httpClient = new HttpClient();
+            //            var myClientHandler = new HttpClientHandler();
 
 
-                        foreach (MeriCollection d in App.mc)
-                        {
-                            HttpResponseMessage httpResponse = new HttpResponseMessage();
-                            var content = new FormUrlEncodedContent(new[]
-                             {
-                                  new KeyValuePair<string, string>("id", d.ChapterId)
-                             });
-                            httpResponse = await httpClient.PostAsync(url, content);
-                            httpResponse.EnsureSuccessStatusCode();
-                            Stream str = await httpResponse.Content.ReadAsStreamAsync();
-                            byte[] pd = new byte[str.Length];
-                            str.Read(pd, 0, pd.Length);
+            //            foreach (MeriCollection d in App.mc)
+            //            {
+            //                HttpResponseMessage httpResponse = new HttpResponseMessage();
+            //                var content = new FormUrlEncodedContent(new[]
+            //                 {
+            //                      new KeyValuePair<string, string>("id", d.ChapterId)
+            //                 });
+            //                httpResponse = await httpClient.PostAsync(url, content);
+            //                httpResponse.EnsureSuccessStatusCode();
+            //                Stream str = await httpResponse.Content.ReadAsStreamAsync();
+            //                byte[] pd = new byte[str.Length];
+            //                str.Read(pd, 0, pd.Length);
 
-                            StorageFile file = await folder.CreateFileAsync(d.ChapterNo + ".txt", CreationCollisionOption.ReplaceExisting);
-                            using (var fileStream = await file.OpenStreamForWriteAsync())
-                            {
-                                str.Seek(0, SeekOrigin.Begin);
-                                await str.CopyToAsync(fileStream);
-                            }
-                        }
-                        StorageFile useFile =
-                      await folder.CreateFileAsync("UserName.txt", CreationCollisionOption.ReplaceExisting);
-                        await Windows.Storage.FileIO.WriteTextAsync(useFile, sn);
-                    }
-                }
+            //                StorageFile file = await folder.CreateFileAsync(d.ChapterNo + ".txt", CreationCollisionOption.ReplaceExisting);
+            //                using (var fileStream = await file.OpenStreamForWriteAsync())
+            //                {
+            //                    str.Seek(0, SeekOrigin.Begin);
+            //                    await str.CopyToAsync(fileStream);
+            //                }
+            //            }
+            //            StorageFile useFile =
+            //          await folder.CreateFileAsync("UserName.txt", CreationCollisionOption.ReplaceExisting);
+            //            await Windows.Storage.FileIO.WriteTextAsync(useFile, sn);
+            //        }
+            //    }
                 LoadingBar.Visibility = Visibility.Collapsed;
-                await (new MessageDialog("Your collection was made!!")).ShowAsync();
+               
                 Frame.Navigate(typeof(ShareColl), CollName.Text);
-            }
-            catch(Exception)
-            {
+           // }
+            //catch(Exception)
+            //{
 
-            }
+            //}
         }
 
         private async void BackBar_Click(object sender, RoutedEventArgs e)

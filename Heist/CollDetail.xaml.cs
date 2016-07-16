@@ -230,7 +230,7 @@ namespace Heist
                 {
                     if (a.wallet > Price)
                     {
-                        foreach (string lol in Chap)//
+                        foreach (string lol in Chap)//buying the chapters
                         {
                             items = await Table.Where(Chapter
                               => Chapter.Id == lol).ToCollectionAsync();
@@ -250,6 +250,8 @@ namespace Heist
                             b.downloads++;
                             await Table.UpdateAsync(b);
                         }
+                        a.collections += rec.Id + ",";//adding collection to user list
+                        await Table3.UpdateAsync(a);
                     }
                     else
                     {
