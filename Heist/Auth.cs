@@ -8,8 +8,8 @@ namespace Heist
 {
     class Auth
     {
-        internal static string key = "xTJvJNqkWQnSwdgugWAjslswIGvDdg67";
-        internal static string web = "https://ebookstreamer2.azure-mobile.net/";
+        internal static string key = "CFhWzSKFLBNYMeeMuviOpDfvGKRtfl38";
+        internal static string web = "https://book.azure-mobile.net/";
 
     }
 }
