@@ -34,6 +34,10 @@ namespace Heist
         private StoreListing rec;
         private IMobileServiceTable<Chapter> Table = App.MobileService.GetTable<Chapter>();
         private MobileServiceCollection<Chapter, Chapter> items;
+        private IMobileServiceTable<Book> Table4 = App.MobileService.GetTable<Book>();
+        private MobileServiceCollection<Book, Book> items4;
+
+
         string testlol;
         private List<ChapterView> list;
         public StoreDetail()
@@ -181,8 +185,11 @@ namespace Heist
                         a.purchases += rec.Id + ".full,";
                         a.wallet = a.wallet - int.Parse(rec.Price);
                         await Table2.UpdateAsync(a);
+
+                        items4 = await Table4.Where(Book
+                                  => Book.Id == rec.Id).ToCollectionAsync();
                         items3 = await Table3.Where(Author
-                                => Author.books.Contains(rec.Id)).ToCollectionAsync();
+                               => Author.Id == items4[0].PublisherId).ToCollectionAsync();
                         Author b = items3[0];
                         b.wallet += int.Parse(rec.Price);
                         await Table3.UpdateAsync(b);
@@ -235,8 +242,10 @@ namespace Heist
                         a.purchases += rec.Id + "." + test3.Text + ",";
                         a.wallet = a.wallet - int.Parse(hello);
                         await Table2.UpdateAsync(a);
+                        items4 = await Table4.Where(Book
+                                   => Book.Id == rec.Id).ToCollectionAsync();
                         items3 = await Table3.Where(Author
-                               => Author.books.Contains(rec.Id)).ToCollectionAsync();
+                               => Author.Id == items4[0].PublisherId).ToCollectionAsync();
                         Author c = items3[0];
                         c.wallet += int.Parse(hello);
                         await Table3.UpdateAsync(c);

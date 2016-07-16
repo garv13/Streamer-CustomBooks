@@ -239,8 +239,11 @@ namespace Heist
                             a.purchases += items[0].bookid + "." + lol + ",";
                             a.wallet = a.wallet - items[0].price;
                             await Table3.UpdateAsync(a);
+                            items2 = await Table2.Where(Book
+                                   => Book.Id == items[0].bookid).ToCollectionAsync();
+
                             items4 = await Table4.Where(Author
-                                   => Author.books.Contains(items[0].bookid)).ToCollectionAsync();
+                                   => Author.Id == items2[0].PublisherId).ToCollectionAsync();
                             Author c = items4[0];
                             c.wallet += items[0].price;
                             await Table4.UpdateAsync(c);

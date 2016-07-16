@@ -15,7 +15,7 @@ namespace Heist
 
         public string phone { get; set; }
 
-        public string books { get; set; }
+       // public string books { get; set; }
 
         public string username { get; set; }
 
