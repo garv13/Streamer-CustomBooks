@@ -216,5 +216,10 @@ namespace Heist
             await (new MessageDialog("You are successfully loged out :):)")).ShowAsync();
             Frame.Navigate(typeof(Login));
         }
+
+        private void CreateColl_Click(object sender, RoutedEventArgs e)
+        {
+            Frame.Navigate(typeof(CreateCollection));
+        }
     }
 }

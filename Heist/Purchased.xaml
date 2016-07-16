@@ -162,4 +162,13 @@
             </Pivot>
         </SplitView.Content>
     </SplitView>
+
+    <Page.BottomAppBar>
+        <AppBar x:Name="Appbar" IsOpen="true" Visibility="Visible" IsSticky="True">
+            <StackPanel Orientation="Horizontal">
+                <AppBarButton Name="CreateColl" Icon="Add" Label="Create New" Click="CreateColl_Click"/>
+            </StackPanel>
+        </AppBar>
+    </Page.BottomAppBar>
+
 </Page>
