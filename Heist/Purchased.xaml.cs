@@ -15,6 +15,7 @@ using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
+using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
@@ -30,6 +31,9 @@ namespace Heist
         private MobileServiceCollection<User, User> items;
         private IMobileServiceTable<Book> Table2 = App.MobileService.GetTable<Book>();
         private MobileServiceCollection<Book, Book> items2;
+
+        private IMobileServiceTable<Collections> Table3 = App.MobileService.GetTable<Collections>();
+        private MobileServiceCollection<Collections, Collections> items3;
         string test;
         string testlol;
         List<StoreListing> li;
@@ -90,10 +94,46 @@ namespace Heist
                     temp.Price = lol.Price.ToString();
                     StoreList.Add(temp);
                 }
+
+                test = items[0].collections;
+                test2 = test.Split(',');
+                if (test.Length == 0)
+                {
+                    noPurchase1.Text = "You have not purchased any collection";
+                    noPurchase1.Visibility = Visibility.Visible;
+                    LoadingBar1.Visibility = Visibility.Collapsed;
+                    goto ex2;
+                }
+                for (int i = 0; i < test2.Length; i++)
+                {
+                         
+                    lis.Add(test2[i]);
+                }
+                items3 = await Table3.Where(Collections
+                              => lis.Contains(Collections.Id)).ToCollectionAsync();
+                
+                List<StoreListing> StoreList2 = new List<StoreListing>();
+                foreach (Collections lol in items3)
+                {
+                    temp = new StoreListing();
+                    temp.Title = lol.Name;
+                    temp.Author = lol.CreatedBy;
+                    temp.Image = new BitmapImage(new Uri(this.BaseUri, "Assets/BooksCollections.png"));
+                    temp.Id = lol.Id;
+                    temp.Price = "0";
+                    StoreList2.Add(temp);
+                }
+
+
                 LoadingBar.Visibility = Visibility.Collapsed;
 
                 StoreListView.ItemsSource = StoreList;
+               
+                LoadingBar1.Visibility = Visibility.Collapsed;
+
+                StoreListView1.ItemsSource = StoreList2;
                 ex:;
+                ex2:;
             }
             catch(Exception)
             {

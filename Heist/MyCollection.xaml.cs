@@ -165,7 +165,7 @@ namespace Heist
                 GridClass gd = new GridClass();
                 StorageFolder folder = await ApplicationData.Current.LocalFolder.CreateFolderAsync(testlol + "My Collections", CreationCollisionOption.OpenIfExists);
                 IReadOnlyList<StorageFolder> sf = await folder.GetFoldersAsync();
-                gd.Image = new BitmapImage(new Uri(this.BaseUri, "Assets/whataboutme.jpg"));
+                gd.Image = new BitmapImage(new Uri(this.BaseUri, "Assets/BooksCollections.png"));
                 gd.authName = "test me";
                 gd.title = "about me";
                 lg.Add(gd);
