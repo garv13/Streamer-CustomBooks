@@ -148,7 +148,7 @@
                         SelectionMode="None"          
                         IsSwipeEnabled="false"
                         IsItemClickEnabled="True"
-                        ItemClick="StoreListView_ItemClick"
+                        ItemClick="StoreListView1_ItemClick"
                         ScrollViewer.HorizontalScrollMode="Auto"
                         ScrollViewer.HorizontalScrollBarVisibility="Auto"
                         ScrollViewer.VerticalScrollMode="Auto"

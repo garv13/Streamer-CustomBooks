@@ -255,6 +255,16 @@ namespace Heist
                         }
                         a.collections += rec.Id + ",";//adding collection to user list
                         await Table3.UpdateAsync(a);
+                        List<string> sL = new List<string>();
+                        ob.insert(rec.books); // collection object made
+                        sL.Add(JsonConvert.SerializeObject(ob));
+                        StorageFolder mainFol = await ApplicationData.Current.LocalFolder.CreateFolderAsync(testlol + "My Books", CreationCollisionOption.OpenIfExists);
+                        StorageFile useFile = await mainFol.CreateFileAsync("Collections.txt", CreationCollisionOption.OpenIfExists);
+                        await FileIO.AppendLinesAsync(useFile, sL);
+                        LoadingBar.Visibility = Visibility.Collapsed;
+                        MessageDialog mess = new MessageDialog("Purchase successfull! Download the file from My purchase section");
+                        await mess.ShowAsync();
+                        Frame.Navigate(typeof(Purchased));
                     }
                     else
                     {
@@ -262,17 +272,7 @@ namespace Heist
                         MessageDialog mess1 = new Windows.UI.Popups.MessageDialog("You have insufficient funds for this!");
                         await mess1.ShowAsync();
                     }
-                    
-                    List<string> sL = new List<string>();                    
-                    ob.insert(rec.books); // collection object made
-                    sL.Add(JsonConvert.SerializeObject(ob));
-                    StorageFolder mainFol = await ApplicationData.Current.LocalFolder.CreateFolderAsync(testlol + "My Books", CreationCollisionOption.OpenIfExists);
-                    StorageFile useFile = await mainFol.CreateFileAsync("Collections.txt", CreationCollisionOption.OpenIfExists);
-                    await FileIO.AppendLinesAsync(useFile, sL);
-                    LoadingBar.Visibility = Visibility.Collapsed;
-                    MessageDialog mess = new MessageDialog("Purchase successfull! Download the file from My purchase section");
-                    await mess.ShowAsync();
-                    Frame.Navigate(typeof(Purchased));
+                                       
                 }
                 else
                 {

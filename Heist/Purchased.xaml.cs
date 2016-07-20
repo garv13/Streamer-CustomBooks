@@ -35,9 +35,13 @@ namespace Heist
         private IMobileServiceTable<Collections> Table3 = App.MobileService.GetTable<Collections>();
         private MobileServiceCollection<Collections, Collections> items3;
         string test;
+        string test1;
         string testlol;
         List<StoreListing> li;
         List<string> lis;
+        List<string> lis1;
+
+
 
         private List<StoreListing> StoreList;
         
@@ -47,6 +51,7 @@ namespace Heist
             this.InitializeComponent();
             li = new List<StoreListing>();
             lis = new List<string>();
+            lis1 = new List<string>();
             Loaded += Purchased_Loaded;
         }
 
@@ -57,8 +62,6 @@ namespace Heist
             LoadingBar.IsIndeterminate = true;
             try
             {
-
-
                 StorageFolder folder = Windows.Storage.ApplicationData.Current.LocalFolder;
                 StorageFile sampleFile = await folder.GetFileAsync("sample.txt");
                 testlol = await Windows.Storage.FileIO.ReadTextAsync(sampleFile);
@@ -89,15 +92,17 @@ namespace Heist
                     temp = new StoreListing();
                     temp.Title = lol.Title;
                     temp.Author = lol.Author;
-                    temp.Image = new Windows.UI.Xaml.Media.Imaging.BitmapImage(new Uri(lol.ImageUri2));
+                    temp.Image = new BitmapImage(new Uri(lol.ImageUri2));
                     temp.Id = lol.Id;
                     temp.Price = lol.Price.ToString();
                     StoreList.Add(temp);
                 }
 
-                test = items[0].collections;
-                test2 = test.Split(',');
-                if (test.Length == 0)
+                ex:;
+                List<StoreListing> StoreList2 = new List<StoreListing>();
+                test1 = items[0].collections;
+                test2 = test1.Split(',');
+                if (test1.Length == 0)
                 {
                     noPurchase1.Text = "You have not purchased any collection";
                     noPurchase1.Visibility = Visibility.Visible;
@@ -107,12 +112,13 @@ namespace Heist
                 for (int i = 0; i < test2.Length; i++)
                 {
                          
-                    lis.Add(test2[i]);
+                    lis1.Add(test2[i]);
                 }
                 items3 = await Table3.Where(Collections
-                              => lis.Contains(Collections.Id)).ToCollectionAsync();
+                              => lis1.Contains(Collections.Id)).ToCollectionAsync();
                 
-                List<StoreListing> StoreList2 = new List<StoreListing>();
+            
+
                 foreach (Collections lol in items3)
                 {
                     temp = new StoreListing();
@@ -124,6 +130,7 @@ namespace Heist
                     StoreList2.Add(temp);
                 }
 
+                ex2:;
 
                 LoadingBar.Visibility = Visibility.Collapsed;
 
@@ -132,8 +139,8 @@ namespace Heist
                 LoadingBar1.Visibility = Visibility.Collapsed;
 
                 StoreListView1.ItemsSource = StoreList2;
-                ex:;
-                ex2:;
+             
+               
             }
             catch(Exception)
             {
@@ -141,31 +148,6 @@ namespace Heist
                 await (new MessageDialog("Can't Update Now")).ShowAsync();
             }
         }
-
-
-        //private async void load_Collectios()
-        //{
-        //    try
-        //    {
-        //        StorageFolder mainFol = await ApplicationData.Current.LocalFolder.CreateFolderAsync(testlol + "My Books", CreationCollisionOption.OpenIfExists);
-        //        if (mainFol != null)
-        //        {
-        //            StorageFile file = await mainFol.GetFileAsync("collJson.txt");
-        //            string str = await FileIO.ReadTextAsync(file);
-        //            CollJson ob1;
-        //            ob1 = JsonConvert.DeserializeObject<CollJson>(str);
-        //            ob1.first();
-
-        //            items2 = await Table2.Where(Book
-        //                    => lis.Contains(Book)).ToCollectionAsync();
-
-        //        }
-        //    }
-        //    catch (Exception)
-        //    {
-        //        await (new MessageDialog("No collections Purchased")).ShowAsync();
-        //    }
-        //}
 
         private void StoreListView_ItemClick(object sender, ItemClickEventArgs e)
         {
@@ -220,6 +202,16 @@ namespace Heist
         private void CreateColl_Click(object sender, RoutedEventArgs e)
         {
             Frame.Navigate(typeof(CreateCollection));
+        }
+
+        private void StoreListView1_ItemClick(object sender, ItemClickEventArgs e)
+        {
+            StoreListing sent = e.ClickedItem as StoreListing;
+            MeraCollView p = new MeraCollView();
+            p.purchases = test;
+            p.sel = sent;
+            //sent.Price = 50.ToString();
+            Frame.Navigate(typeof(PurchasedCollDetail), p);
         }
     }
 }

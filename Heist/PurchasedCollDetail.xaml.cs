@@ -4,13 +4,10 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Net;
 using System.Net.Http;
 using System.Runtime.InteropServices.WindowsRuntime;
-using System.Text;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
-using Windows.Graphics.Imaging;
 using Windows.Storage;
 using Windows.UI.Popups;
 using Windows.UI.Xaml;
@@ -19,7 +16,6 @@ using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
@@ -29,17 +25,29 @@ namespace Heist
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class Purchaseddetail : Page
+    public sealed partial class PurchasedCollDetail : Page
     {
+
         private IMobileServiceTable<Book> Table2 = App.MobileService.GetTable<Book>();
         private MobileServiceCollection<Book, Book> items2;
-        private PurchasedView rec;
         private IMobileServiceTable<Chapter> Table = App.MobileService.GetTable<Chapter>();
         private MobileServiceCollection<Chapter, Chapter> items;
-        string testlol;
+        private IMobileServiceTable<User> Table3 = App.MobileService.GetTable<User>();
+        private MobileServiceCollection<User, User> items3;
+        string test;
+        List<string> book;
+        List<string> bookName;
+        List<string> ChapPur;
+        List<string> Chap;
+        List<string> lis;
+        List<string> ChapName;
+        MeraCollView rec;
+        string testlol = "";
         private List<ChapterView> list;
-        public byte[] imgBuffer; 
-        public Purchaseddetail()
+        List<CollView> CollList;
+        public byte[] imgBuffer;
+
+        public PurchasedCollDetail()
         {
             this.InitializeComponent();
         }
@@ -51,79 +59,65 @@ namespace Heist
             StorageFolder folder = Windows.Storage.ApplicationData.Current.LocalFolder;
             StorageFile sampleFile = await folder.GetFileAsync("sample.txt");
             testlol = await Windows.Storage.FileIO.ReadTextAsync(sampleFile);
-            LoadingBar.Visibility = Visibility.Visible;
+
+            items3 = await Table3.Where(User
+                             => User.username == testlol).ToCollectionAsync();
+            test = items3[0].purchases;
+
+            CollList = new List<CollView>();
+            book = new List<string>();
+            Chap = new List<string>();
+
+            bookName = new List<string>();
+            ChapName = new List<string>();
+            ChapPur = new List<string>();
             LoadingBar.IsIndeterminate = true;
-
-            try
+            LoadingBar.Visibility = Visibility.Visible;
+            rec = new MeraCollView();
+            rec = e.Parameter as MeraCollView;
+            Cover.Source = rec.sel.Image;
+            Title.Text = rec.sel.Title;
+            Author.Text = rec.sel.Author;
+            string[] lis = rec.purchases.Split(',');
+            for (int i = 0; i < lis.Length; i++)
             {
-                rec = e.Parameter as PurchasedView;
-                Cover.Source = rec.sel.Image;
-                Title.Text = rec.sel.Title;
-                Author.Text = rec.sel.Author;
-                List<string> chaps = new List<string>();
-                string[] lol = rec.purchases.Split(',');
-                for (int i = 0; i < lol.Length; i++)
-                {
-                    string test3 = lol[i];
-                    string[] test4 = test3.Split('.');
-                    if (test4[0] == rec.sel.Id)
-                    {
-                        if (test4[1] != "full")
-                            chaps.Add(test4[1]);
-                        else {
-                            items = await Table.Where(Chapter
-                => Chapter.bookid == rec.sel.Id).ToCollectionAsync();
-                            foreach (Chapter lol2 in items)
-                            {
-                                chaps.Add(lol2.Id);
-
-                            }
-                        }
-                    }
-                }
-
-                list = new List<ChapterView>();
-                ChapterView temp;
-                try
-                {
-                    items = await Table.Where(Chapter
-                                => chaps.Contains(Chapter.Id)).ToCollectionAsync();
-
-
-                    foreach (Chapter lol2 in items)
-                    {
-                        temp = new ChapterView();
-                        temp.Id = lol2.Id;
-                        temp.Title = lol2.Name;
-                        temp.Price = "Price: " + lol2.price.ToString();
-                        list.Add(temp);
-                    }
-                    LoadingBar.Visibility = Visibility.Collapsed;
-                    StoreListView.ItemsSource = list;
-
-                }
-                catch (Exception)
-                {
-                    LoadingBar.Visibility = Visibility.Collapsed;
-                    await (new MessageDialog("Can't get data now please try again later")).ShowAsync();
-                }
+                string[] temp = lis[i].Split('.');
+                book.Insert(i, temp[0]);
+                Chap.Insert(i, temp[1]);
             }
-            
-            catch(Exception)
+            foreach (string lol in book)
             {
-                LoadingBar.Visibility = Visibility.Collapsed;
-                await (new MessageDialog("Can't get data now please try again later")).ShowAsync();
+                items2 = await Table2.Where(Book
+                                   => Book.Id == lol).ToCollectionAsync();
+                bookName.Insert(bookName.Count, items2[0].Title);
             }
+            foreach (string lol in Chap)
+            {
+                items = await Table.Where(Chapter
+                    => Chapter.Id == lol).ToCollectionAsync();
+                ChapName.Insert(ChapName.Count, items[0].Name);
+
+            for (int i = 0; i < ChapName.Count; i++)
+            {
+                CollView temp = new CollView();
+                temp.Book = bookName[i];
+                temp.Chapter = ChapName[i];
+                CollList.Insert(CollList.Count, temp);
+            }
+            StoreListView.ItemsSource = CollList;
+            LoadingBar.Visibility = Visibility.Collapsed;
         }
 
-        private async void Buy_Click(object sender, RoutedEventArgs e)
+    }
+
+    private async void Buy_Click(object sender, RoutedEventArgs e)
         {
             string sn = "";
             LoadingBar.Visibility = Visibility.Visible;
             LoadingBar.IsIndeterminate = true;
 
             items2 = await Table2.Where(Book
-                            => Book.Id == rec.sel.Id).ToCollectionAsync();
+                            => Book.Id == rec.Id).ToCollectionAsync();
             BookData b = new BookData();
             foreach (Book lol in items2)
             {
@@ -137,14 +131,14 @@ namespace Heist
                     imgBuffer = await client.GetByteArrayAsync(lol.ImageUri2); // Download file
 
                     sn = JsonConvert.SerializeObject(b);
-                  
+
                 }
                 catch (Exception)
                 {
                     LoadingBar.Visibility = Visibility.Collapsed;
                     await (new MessageDialog("Something bad happened :(:(")).ShowAsync();
                     break;
-                }              
+                }
             }
             try
             {
@@ -153,12 +147,12 @@ namespace Heist
                 var test3 = test2.Children[2] as TextBlock;
                 var test4 = test2.Children[0] as TextBlock;
                 string nam = test4.Text;
-        
+
                 string titl = Title.Text;
                 Uri url = new Uri("https://ebookstreamer.me/downloads");
                 HttpClient httpClient = new HttpClient();
                 var myClientHandler = new HttpClientHandler();
-                
+
                 //myClientHandler.ClientCertificateOptions = ClientCertificateOption.Automatic;
                 HttpResponseMessage httpResponse = new HttpResponseMessage();
                 var content = new FormUrlEncodedContent(new[]
@@ -187,7 +181,7 @@ namespace Heist
                             }
                             StorageFile useFile =
                            await folder.CreateFileAsync("UserName.txt", CreationCollisionOption.ReplaceExisting);
-                           await Windows.Storage.FileIO.WriteTextAsync(useFile, sn);                                                                               
+                            await Windows.Storage.FileIO.WriteTextAsync(useFile, sn);
                             StorageFile imgFile =
                          await folder.CreateFileAsync("image.jpeg", CreationCollisionOption.ReplaceExisting);
                             using (Stream stream = await imgFile.OpenStreamForWriteAsync())
@@ -204,12 +198,15 @@ namespace Heist
                     await (new MessageDialog("Can't download now please try after sometime")).ShowAsync();
                 }
             }
-            catch(Exception)
+            catch (Exception)
             {
                 LoadingBar.Visibility = Visibility.Collapsed;
                 await (new MessageDialog("Something bad happened :(:(")).ShowAsync();
             }
         }
+
+
+
         private void HamburgerButton_Click(object sender, RoutedEventArgs e)
         {
             MySplitView.IsPaneOpen = !MySplitView.IsPaneOpen;
@@ -227,7 +224,7 @@ namespace Heist
 
         private void MenuButton3_Click(object sender, RoutedEventArgs e)
         {
-            Frame.Navigate(typeof(Purchased)); 
+            Frame.Navigate(typeof(Purchased));
         }
 
         private void MenuButton4_Click(object sender, RoutedEventArgs e)
@@ -249,6 +246,5 @@ namespace Heist
         {
             Frame.Navigate(typeof(MyCollection));
         }
-
     }
 }

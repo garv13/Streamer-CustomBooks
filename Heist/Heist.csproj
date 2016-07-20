@@ -140,6 +140,7 @@
     <Compile Include="Downloads.xaml.cs">
       <DependentUpon>Downloads.xaml</DependentUpon>
     </Compile>
+    <Compile Include="EncryptionClass.cs" />
     <Compile Include="GridClass.cs" />
     <Compile Include="Login.xaml.cs">
       <DependentUpon>Login.xaml</DependentUpon>
@@ -147,6 +148,7 @@
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="MeraCollView.cs" />
     <Compile Include="MeriCollection.cs" />
     <Compile Include="MyCollection.xaml.cs">
       <DependentUpon>MyCollection.xaml</DependentUpon>
@@ -156,6 +158,9 @@
     <Compile Include="Purchased.cs" />
     <Compile Include="Purchased.xaml.cs">
       <DependentUpon>Purchased.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="PurchasedCollDetail.xaml.cs">
+      <DependentUpon>PurchasedCollDetail.xaml</DependentUpon>
     </Compile>
     <Compile Include="Purchaseddetail.xaml.cs">
       <DependentUpon>Purchaseddetail.xaml</DependentUpon>
@@ -235,6 +240,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Purchased.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="PurchasedCollDetail.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
