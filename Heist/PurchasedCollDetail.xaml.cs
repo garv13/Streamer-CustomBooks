@@ -34,6 +34,8 @@ namespace Heist
         private MobileServiceCollection<Chapter, Chapter> items;
         private IMobileServiceTable<User> Table3 = App.MobileService.GetTable<User>();
         private MobileServiceCollection<User, User> items3;
+        private IMobileServiceTable<Collections> Table4 = App.MobileService.GetTable<Collections>();
+        private MobileServiceCollection<Collections, Collections> items4;
         string test;
         List<string> book;
         List<string> bookName;
@@ -58,7 +60,7 @@ namespace Heist
 
             StorageFolder folder = Windows.Storage.ApplicationData.Current.LocalFolder;
             StorageFile sampleFile = await folder.GetFileAsync("sample.txt");
-            testlol = await Windows.Storage.FileIO.ReadTextAsync(sampleFile);
+            testlol = await FileIO.ReadTextAsync(sampleFile);
 
             items3 = await Table3.Where(User
                              => User.username == testlol).ToCollectionAsync();
@@ -79,11 +81,18 @@ namespace Heist
             Title.Text = rec.sel.Title;
             Author.Text = rec.sel.Author;
             string[] lis = rec.purchases.Split(',');
-            for (int i = 0; i < lis.Length; i++)
+
+                items4 = await Table4.Where(Collections
+                             =>Collections.Id == lis[0]).ToCollectionAsync();
+                string[] temp1 = items4[0].books.Split(',');
+
+
+            for (int j = 0; j < temp1.Length; j++)
             {
-                string[] temp = lis[i].Split('.');
-                book.Insert(i, temp[0]);
-                Chap.Insert(i, temp[1]);
+                string test3 = temp1[j];
+                string[] test4 = test3.Split('.');
+                book.Insert(j, test4[0]);
+                Chap.Insert(j, test4[1]);
             }
             foreach (string lol in book)
             {
@@ -96,7 +105,7 @@ namespace Heist
                 items = await Table.Where(Chapter
                     => Chapter.Id == lol).ToCollectionAsync();
                 ChapName.Insert(ChapName.Count, items[0].Name);
-
+            }
             for (int i = 0; i < ChapName.Count; i++)
             {
                 CollView temp = new CollView();
@@ -106,97 +115,107 @@ namespace Heist
             }
             StoreListView.ItemsSource = CollList;
             LoadingBar.Visibility = Visibility.Collapsed;
-        }
+
 
     }
 
-    private async void Buy_Click(object sender, RoutedEventArgs e)
+        private async void Buy_Click(object sender, RoutedEventArgs e)
         {
             string sn = "";
             LoadingBar.Visibility = Visibility.Visible;
             LoadingBar.IsIndeterminate = true;
-
-            items2 = await Table2.Where(Book
-                            => Book.Id == rec.Id).ToCollectionAsync();
-            BookData b = new BookData();
-            foreach (Book lol in items2)
-            {
-                b.Title = lol.Title;
-                b.Author = lol.Author;
-                b.userName = testlol;
-
-                try
-                {
-                    HttpClient client = new HttpClient(); // Create HttpClient
-                    imgBuffer = await client.GetByteArrayAsync(lol.ImageUri2); // Download file
-
-                    sn = JsonConvert.SerializeObject(b);
-
-                }
-                catch (Exception)
-                {
-                    LoadingBar.Visibility = Visibility.Collapsed;
-                    await (new MessageDialog("Something bad happened :(:(")).ShowAsync();
-                    break;
-                }
-            }
             try
             {
-                var test = sender as Button;
-                var test2 = test.Parent as Grid;
-                var test3 = test2.Children[2] as TextBlock;
-                var test4 = test2.Children[0] as TextBlock;
-                string nam = test4.Text;
-
-                string titl = Title.Text;
-                Uri url = new Uri("https://ebookstreamer.me/downloads");
-                HttpClient httpClient = new HttpClient();
-                var myClientHandler = new HttpClientHandler();
-
-                //myClientHandler.ClientCertificateOptions = ClientCertificateOption.Automatic;
-                HttpResponseMessage httpResponse = new HttpResponseMessage();
-                var content = new FormUrlEncodedContent(new[]
-                 {
-                new KeyValuePair<string, string>("id", test3.Text)
-            });
-                httpResponse = await httpClient.PostAsync(url, content);
-                httpResponse.EnsureSuccessStatusCode();
-                Stream str = await httpResponse.Content.ReadAsStreamAsync();
-
-                byte[] pd = new byte[str.Length];
-                str.Read(pd, 0, pd.Length);
-                try
+                for (int i = 0; i < book.Count; i++)
                 {
+                    items2 = await Table2.Where(Book
+                                => Book.Id == book[i]).ToCollectionAsync();
+
+                    BookData b = new BookData();
+                    foreach (Book lol in items2)
+                    {
+                        b.Title = lol.Title;
+                        b.Author = lol.Author;
+                        b.userName = testlol;
+
+                        HttpClient client = new HttpClient(); // Create HttpClient
+                        imgBuffer = await client.GetByteArrayAsync(lol.ImageUri2); // Download file
+
+                        sn = JsonConvert.SerializeObject(b);
+                    }
+
+
                     StorageFolder mainFol = await ApplicationData.Current.LocalFolder.CreateFolderAsync(testlol + "My Books", CreationCollisionOption.OpenIfExists);
                     if (mainFol != null)
                     {
-                        StorageFolder folder = await mainFol.CreateFolderAsync(titl, CreationCollisionOption.OpenIfExists);
-                        if (folder != null)
+                        try
                         {
-                            StorageFile file = await folder.CreateFileAsync(nam + ".txt", CreationCollisionOption.ReplaceExisting);
-                            using (var fileStream = await file.OpenStreamForWriteAsync())
+                            StorageFolder folder = await mainFol.CreateFolderAsync(b.Title, CreationCollisionOption.FailIfExists);
+                            if (folder != null)
                             {
-                                str.Seek(0, SeekOrigin.Begin);
-                                await str.CopyToAsync(fileStream);
+                                StorageFile useFile =
+                                  await folder.CreateFileAsync("UserName.txt", CreationCollisionOption.ReplaceExisting);
+                                await Windows.Storage.FileIO.WriteTextAsync(useFile, sn);
+                                StorageFile imgFile =
+                             await folder.CreateFileAsync("image.jpeg", CreationCollisionOption.ReplaceExisting);
+                                using (Stream stream = await imgFile.OpenStreamForWriteAsync())
+                                    stream.Write(imgBuffer, 0, imgBuffer.Length); // Save
                             }
-                            StorageFile useFile =
-                           await folder.CreateFileAsync("UserName.txt", CreationCollisionOption.ReplaceExisting);
-                            await Windows.Storage.FileIO.WriteTextAsync(useFile, sn);
-                            StorageFile imgFile =
-                         await folder.CreateFileAsync("image.jpeg", CreationCollisionOption.ReplaceExisting);
-                            using (Stream stream = await imgFile.OpenStreamForWriteAsync())
-                                stream.Write(imgBuffer, 0, imgBuffer.Length); // Save
+                        }
+                        catch (System.Exception)
+                        {
+
+                            // exception if same book found 
+                        }
+
+                        finally
+                        {
+                            if (mainFol != null)
+                            {
+                                try
+                                {
+                                    StorageFolder folder = await mainFol.CreateFolderAsync(b.Title, CreationCollisionOption.OpenIfExists);
+                                    if (folder != null)
+                                    {
+                                        items = await Table.Where(Chapter
+                                               => Chapter.Id == Chap[i]).ToCollectionAsync();
+
+                                        StorageFile file = await folder.CreateFileAsync(items[0].Name + ".txt", CreationCollisionOption.FailIfExists);
+
+                                        Uri url = new Uri("https://ebookstreamer.me/downloads");
+                                        HttpClient httpClient = new HttpClient();
+                                        var myClientHandler = new HttpClientHandler();
+
+                                        //myClientHandler.ClientCertificateOptions = ClientCertificateOption.Automatic;
+                                        HttpResponseMessage httpResponse = new HttpResponseMessage();
+                                        var content = new FormUrlEncodedContent(new[]
+                                         {
+                                      new KeyValuePair<string, string>("id", items[0].Id)
+                                     });
+                                        httpResponse = await httpClient.PostAsync(url, content);
+                                        httpResponse.EnsureSuccessStatusCode();
+                                        Stream str = await httpResponse.Content.ReadAsStreamAsync();
+                                        byte[] pd = new byte[str.Length];
+                                        str.Read(pd, 0, pd.Length);
+
+                                        using (var fileStream = await file.OpenStreamForWriteAsync())
+                                        {
+                                            str.Seek(0, SeekOrigin.Begin);
+                                            await str.CopyToAsync(fileStream);
+                                        }
+                                    }
+                                   
+                                }
+                                catch (System.Exception)
+                                {
+                                    // exception if same chapter found
+                                }
+                            }
                         }
                     }
-                    LoadingBar.Visibility = Visibility.Collapsed;
-                    await (new MessageDialog("Download Successful")).ShowAsync();
-                    Frame.Navigate(typeof(Downloads));
                 }
-                catch (Exception)
-                {
-                    LoadingBar.Visibility = Visibility.Collapsed;
-                    await (new MessageDialog("Can't download now please try after sometime")).ShowAsync();
-                }
+                LoadingBar.Visibility = Visibility.Collapsed;
+                await (new MessageDialog("Download completed :):)")).ShowAsync();
             }
             catch (Exception)
             {
@@ -204,6 +223,7 @@ namespace Heist
                 await (new MessageDialog("Something bad happened :(:(")).ShowAsync();
             }
         }
+         
 
 
 

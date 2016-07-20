@@ -208,7 +208,7 @@ namespace Heist
         {
             StoreListing sent = e.ClickedItem as StoreListing;
             MeraCollView p = new MeraCollView();
-            p.purchases = test;
+            p.purchases = test1;
             p.sel = sent;
             //sent.Price = 50.ToString();
             Frame.Navigate(typeof(PurchasedCollDetail), p);
