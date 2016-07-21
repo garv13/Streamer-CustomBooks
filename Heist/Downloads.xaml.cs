@@ -45,13 +45,14 @@ namespace Heist
         string testlol;
         BookData ob = new BookData();
         StorageFolder openBook = null;
-
+        List<CollJson> obList = new List<CollJson>();
         async void lol()
         {
             LoadingBar.IsActive = true;
             StorageFolder folder = Windows.Storage.ApplicationData.Current.LocalFolder;
             StorageFile sampleFile = await folder.GetFileAsync("sample.txt");
             testlol = await Windows.Storage.FileIO.ReadTextAsync(sampleFile);
+            await loadColl();
             await load();
             LoadingBar.Visibility = Visibility.Collapsed;
 
@@ -220,6 +221,45 @@ namespace Heist
             }
         }
 
+        private async Task loadColl()
+        {
+            CollJson ob;
+            try
+            {
+                IList<string> sL = new List<string>();
+                StorageFolder mainFol1 = await ApplicationData.Current.LocalFolder.CreateFolderAsync(testlol + "My Books", CreationCollisionOption.OpenIfExists);
+                StorageFile useFile1 = await mainFol1.CreateFileAsync("Collections.txt", CreationCollisionOption.OpenIfExists);
+                sL = await FileIO.ReadLinesAsync(useFile1);
+                List<GridClass> lg = new List<GridClass>();
+                foreach (string ln in sL)
+                {
+                    ob = JsonConvert.DeserializeObject<CollJson>(ln);
+                    obList.Add(ob);
+                    GridClass gd = new GridClass();
+                    gd = new GridClass();
+                    gd.title = ob.name;
+                    gd.authName = "";
+                    gd.Image = new BitmapImage(new Uri(this.BaseUri, "Assets/BooksCollections.png"));
+                    lg.Add(gd);
+                }
+                if (lg.Count != 0)
+                {
+                    event11.ItemsSource = lg;
+                }
+                else
+                {
+                    LoadingBar1.Visibility = Visibility.Collapsed;
+                    ErrorBox1.Text = "No Collections Downloaded";
+                    ErrorBox1.Visibility = Visibility.Visible;
+                }
+            }
+            catch (Exception)
+            {
+                LoadingBar1.Visibility = Visibility.Collapsed;
+                await (new MessageDialog("Oops Something Bad Happened :(:(")).ShowAsync();
+            }
+        }
+
         private async void Grid_Tapped(object sender, TappedRoutedEventArgs e)
         {
             LoadingBar.IsActive = true;
@@ -249,11 +289,19 @@ namespace Heist
             if (str != "")
                 await retreive(t2.Text);
             else if (t2.Text.CompareTo("about me") == 0)
+            {
                 await printPdf("ms-appx://Assets/test.pdf");
+                event2.Visibility = Visibility.Collapsed;
+                PdfGrid.Visibility = Visibility.Visible;
+                Appbar.Visibility = Visibility.Visible;
+            }
             else
             {
                 string nam = t2.Text;
                 await printPdf(nam + ".txt");
+                event2.Visibility = Visibility.Collapsed;
+                PdfGrid.Visibility = Visibility.Visible;
+                Appbar.Visibility = Visibility.Visible;
             }
             LoadingBar.Visibility = Visibility.Collapsed;
         }
@@ -292,12 +340,11 @@ namespace Heist
                 PdfLoadedDocument ldoc = new PdfLoadedDocument(buffer);
                 TitlBox.Text = "Chapter: " + text.Replace(".txt", "");
                 pdfViewer.LoadDocument(ldoc);
-                event2.Visibility = Visibility.Collapsed;
-                PdfGrid.Visibility = Visibility.Visible;
-                Appbar.Visibility = Visibility.Visible;
+                pdfViewer1.LoadDocument(ldoc);
+               
                
             }
-            catch(Exception)
+            catch(Exception e)
             {
                 LoadingBar.Visibility = Visibility.Collapsed;
                 await (new MessageDialog("Can't open Pdf")).ShowAsync();
@@ -367,5 +414,64 @@ namespace Heist
             await tts(loc);
 
         }
+
+        private async void Grid_Tapped_1(object sender, TappedRoutedEventArgs e)
+        {
+            Grid g = new Grid();
+            g = sender as Grid;
+
+            FrameworkElement titl = null;
+            FrameworkElement auth = null;
+            foreach (FrameworkElement child in g.Children)
+            {
+                if ((Grid.GetRow(child) == 0) && (Grid.GetColumn(child) == 1))
+                {
+                    titl = child;
+                }
+
+                if ((Grid.GetRow(child) == 1) && (Grid.GetColumn(child) == 1))
+                {
+                    auth = child;
+                }
+            }
+                TextBlock t = auth as TextBlock;
+                TextBlock t1 = titl as TextBlock;
+            StorageFolder folder = await ApplicationData.Current.LocalFolder.CreateFolderAsync(testlol + "My Books", CreationCollisionOption.OpenIfExists);
+            if (t.Text == "")
+              {
+                string str = t1.Text;
+                List<GridClass> lg = new List<GridClass>();
+                GridClass gd = new GridClass();              
+                foreach (CollJson o in obList)
+                {
+                    if (o.name == str)
+                    {
+                        for (int i = 0; i < o.list.Count; i++)
+                        {
+                            string na = o.list[i].Item1;
+                            StorageFolder folde = await folder.GetFolderAsync(na);
+                            StorageFile imgFile = await folde.GetFileAsync("image.jpeg");
+                            Im = new BitmapImage(new Uri(imgFile.Path));
+                            gd = new GridClass();
+                            gd.title = na;
+                            gd.Image = Im;
+                            gd.authName = o.list[i].Item2;
+                            lg.Add(gd);
+                        }
+                    }
+                }
+                event11.ItemsSource = lg;
+            }
+            else
+            {
+                openBook = await folder.GetFolderAsync(t1.Text);
+               await printPdf(t.Text + ".txt");
+                event21.Visibility = Visibility.Collapsed;
+                event11.Visibility = Visibility.Collapsed;
+                PdfGrid1.Visibility = Visibility.Visible;
+                Appbar.Visibility = Visibility.Visible;
+            }
+        }
+            
     }
 }

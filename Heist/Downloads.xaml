@@ -34,6 +34,25 @@
                     
                 </Grid>
             </DataTemplate>
+
+            <DataTemplate x:Key="Standard3100x2601ItemTemplate" ScrollViewer.VerticalScrollMode="Auto" ScrollViewer.VerticalScrollBarVisibility="Auto">
+                <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="400" Margin="10,10" Background="#253375" Tapped="Grid_Tapped_1">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="0.5*"/>
+                        <RowDefinition Height="0.5*"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="100"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Image x:Name="img" Source="{Binding Image}" Height="100" Width="100" Grid.Row="0" Grid.RowSpan="2" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+
+                    <TextBlock x:Name="title" Text="{Binding title}" FontSize="25" TextWrapping="WrapWholeWords" Margin="15,0,0,0" Foreground="White" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+
+                    <TextBlock x:Name="authName" Text="{Binding authName}" FontSize="20" Foreground="White" Grid.Row="1" Grid.Column="1" Margin="0,0,10,10" HorizontalAlignment="Right" VerticalAlignment="Bottom"/>
+
+                </Grid>
+            </DataTemplate>
         </ResourceDictionary>
     </Page.Resources>
 
@@ -69,18 +88,20 @@
         </SplitView.Pane>
 
         <SplitView.Content>
-            <Grid Background="#292929">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="0.06*"/>
-                    <RowDefinition Height="*"/>
-                </Grid.RowDefinitions>
-                <TextBlock x:Name="TitlBox" Text="Downloaded Books" Foreground="#CCCCCC" FontSize="20" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="5,5,0,0"/>
-                <TextBlock x:Name="ErrorBox" Grid.Row="1" VerticalAlignment="Top" Foreground="White" FontSize="15" HorizontalAlignment="Left" Visibility="Collapsed" Margin="15,10,0,0"/>
-                <ProgressRing  Grid.Row="2" x:Name="LoadingBar"/>
+            <Pivot Background="#292929">
+                <PivotItem Header="Books" Foreground="White">
+                    <Grid Background="#292929">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="0.06*"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <TextBlock x:Name="TitlBox" Text="Downloaded Books" Foreground="#CCCCCC" FontSize="20" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="5,5,0,0"/>
+                        <TextBlock x:Name="ErrorBox" Grid.Row="1" VerticalAlignment="Top" Foreground="White" FontSize="15" HorizontalAlignment="Left" Visibility="Collapsed" Margin="15,10,0,0"/>
+                        <ProgressRing  Grid.Row="2" x:Name="LoadingBar"/>
 
-                <Grid Grid.Row="1"> 
+                        <Grid Grid.Row="1">
 
-                    <GridView                    
+                            <GridView                    
                         HorizontalAlignment="Stretch"
                         x:Name="event1"
                         VerticalAlignment="Stretch"
@@ -95,10 +116,10 @@
                         ScrollViewer.VerticalScrollBarVisibility="Auto"
                         Visibility="Visible"
                       >
-                    </GridView>
+                            </GridView>
 
 
-                    <GridView
+                            <GridView
                         
                         HorizontalAlignment="Stretch"
                         x:Name="event2"
@@ -114,15 +135,73 @@
                         ScrollViewer.VerticalScrollBarVisibility="Auto"
                         Visibility="Collapsed"
                       >
-                    </GridView>
+                            </GridView>
 
-                    <Grid x:Name="PdfGrid" Visibility="Collapsed">
-                        <syncfusion:SfPdfViewerControl Name="pdfViewer" PageView="SinglePageView" ViewMode="OnePage"></syncfusion:SfPdfViewerControl>
-                        <MediaElement x:Name="mediaElement"/>
-                        <ProgressRing x:Name="LoadingBarPdf" Visibility="Collapsed" Height="40" Width="40" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+                            <Grid x:Name="PdfGrid" Visibility="Collapsed">
+                                <syncfusion:SfPdfViewerControl Name="pdfViewer" PageView="SinglePageView" ViewMode="OnePage"></syncfusion:SfPdfViewerControl>
+                                <MediaElement x:Name="mediaElement"/>
+                                <ProgressRing x:Name="LoadingBarPdf" Visibility="Collapsed" Height="40" Width="40" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+                            </Grid>
+                        </Grid>
                     </Grid>
-                </Grid>
-            </Grid>
+                </PivotItem>
+                <PivotItem Header="Collections" Foreground="White">
+                    <Grid Background="#292929">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="0.06*"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <TextBlock x:Name="TitlBox1" Text="Downloaded Collections" Foreground="#CCCCCC" FontSize="20" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="5,5,0,0"/>
+                        <TextBlock x:Name="ErrorBox1" Grid.Row="1" VerticalAlignment="Top" Foreground="White" FontSize="15" HorizontalAlignment="Left" Visibility="Collapsed" Margin="15,10,0,0"/>
+                        <ProgressRing  Grid.Row="2" x:Name="LoadingBar1"/>
+
+                        <Grid Grid.Row="1">
+
+                            <GridView                    
+                        HorizontalAlignment="Stretch"
+                        x:Name="event11"
+                        VerticalAlignment="Stretch"
+                        ItemsSource="{Binding}"
+                        ItemTemplate="{StaticResource Standard3100x2601ItemTemplate}"
+                        SelectionMode="None"          
+                        IsSwipeEnabled="false"
+                        IsItemClickEnabled="True"
+                        ScrollViewer.HorizontalScrollMode="Auto"
+                        ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                        ScrollViewer.VerticalScrollMode="Auto"
+                        ScrollViewer.VerticalScrollBarVisibility="Auto"
+                        Visibility="Visible"
+                      >
+                            </GridView>
+
+
+                            <GridView
+                        
+                        HorizontalAlignment="Stretch"
+                        x:Name="event21"
+                        VerticalAlignment="Stretch"
+                        ItemsSource="{Binding}"
+                        ItemTemplate="{StaticResource Standard3100x2601ItemTemplate}"
+                        SelectionMode="None"          
+                        IsSwipeEnabled="false"
+                        IsItemClickEnabled="True"
+                        ScrollViewer.HorizontalScrollMode="Auto"
+                        ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                        ScrollViewer.VerticalScrollMode="Auto"
+                        ScrollViewer.VerticalScrollBarVisibility="Auto"
+                        Visibility="Collapsed"
+                      >
+                            </GridView>
+
+                            <Grid x:Name="PdfGrid1" Visibility="Collapsed">
+                                <syncfusion:SfPdfViewerControl Name="pdfViewer1" PageView="SinglePageView" ViewMode="OnePage"></syncfusion:SfPdfViewerControl>
+                                <MediaElement x:Name="mediaElement1"/>
+                                <ProgressRing x:Name="LoadingBarPdf1" Visibility="Collapsed" Height="40" Width="40" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+                            </Grid>
+                        </Grid>
+                    </Grid>
+                </PivotItem>
+            </Pivot>
         </SplitView.Content>
     </SplitView>
 

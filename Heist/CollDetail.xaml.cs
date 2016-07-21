@@ -220,7 +220,6 @@ namespace Heist
 
         private async Task Check_Exist()
         {
-            CollJson ob = new CollJson(rec.Name,testlol);
             try
             {
                 items3 = await Table3.Where(User
@@ -254,13 +253,7 @@ namespace Heist
                             await Table.UpdateAsync(b);
                         }
                         a.collections += rec.Id + ",";//adding collection to user list
-                        await Table3.UpdateAsync(a);
-                        List<string> sL = new List<string>();
-                        ob.insert(rec.books); // collection object made
-                        sL.Add(JsonConvert.SerializeObject(ob));
-                        StorageFolder mainFol = await ApplicationData.Current.LocalFolder.CreateFolderAsync(testlol + "My Books", CreationCollisionOption.OpenIfExists);
-                        StorageFile useFile = await mainFol.CreateFileAsync("Collections.txt", CreationCollisionOption.OpenIfExists);
-                        await FileIO.AppendLinesAsync(useFile, sL);
+                        await Table3.UpdateAsync(a);                     
                         LoadingBar.Visibility = Visibility.Collapsed;
                         MessageDialog mess = new MessageDialog("Purchase successfull! Download the file from My purchase section");
                         await mess.ShowAsync();

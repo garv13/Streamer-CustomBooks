@@ -41,11 +41,9 @@ namespace Heist
         List<string> bookName;
         List<string> ChapPur;
         List<string> Chap;
-        List<string> lis;
         List<string> ChapName;
         MeraCollView rec;
         string testlol = "";
-        private List<ChapterView> list;
         List<CollView> CollList;
         public byte[] imgBuffer;
 
@@ -124,6 +122,7 @@ namespace Heist
             string sn = "";
             LoadingBar.Visibility = Visibility.Visible;
             LoadingBar.IsIndeterminate = true;
+            CollJson ob = new CollJson(rec.sel.Title, testlol);
             try
             {
                 for (int i = 0; i < book.Count; i++)
@@ -180,10 +179,13 @@ namespace Heist
                                         items = await Table.Where(Chapter
                                                => Chapter.Id == Chap[i]).ToCollectionAsync();
 
-                                        StorageFile file = await folder.CreateFileAsync(items[0].Name + ".txt", CreationCollisionOption.FailIfExists);
+                                        ob.insert(b.Title, items[0].Name);
 
                                         Uri url = new Uri("https://ebookstreamer.me/downloads");
                                         HttpClient httpClient = new HttpClient();
+                                        StorageFile file = await folder.CreateFileAsync(items[0].Name + ".txt", CreationCollisionOption.FailIfExists);
+
+                                       
                                         var myClientHandler = new HttpClientHandler();
 
                                         //myClientHandler.ClientCertificateOptions = ClientCertificateOption.Automatic;
@@ -214,8 +216,15 @@ namespace Heist
                         }
                     }
                 }
+                List<string> sL = new List<string>();
+                string ns = JsonConvert.SerializeObject(ob);
+                sL.Add(ns);
+                StorageFolder mainFol1 = await ApplicationData.Current.LocalFolder.CreateFolderAsync(testlol + "My Books", CreationCollisionOption.OpenIfExists);
+                StorageFile useFile1 = await mainFol1.CreateFileAsync("Collections.txt", CreationCollisionOption.OpenIfExists);
+                await FileIO.AppendLinesAsync(useFile1, sL);
                 LoadingBar.Visibility = Visibility.Collapsed;
                 await (new MessageDialog("Download completed :):)")).ShowAsync();
+                Frame.Navigate(typeof(Downloads));
             }
             catch (Exception)
             {

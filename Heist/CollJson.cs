@@ -11,15 +11,15 @@ namespace Heist
     {
         public string name { get; set; }
         public string userName;
-        public string collString;
+        public List<Tuple<string, string>> list = new List<Tuple<string, string>>();
         public CollJson(string collName,string userName)
         {
             this.name = collName;
             this.userName = userName;
         }
-        public void insert(string s)
+        public void insert(string book,string chap)
         {
-            collString = s;
+            list.Add(new Tuple<string, string>(book, chap));
         }
 
     }
