@@ -63,7 +63,7 @@ namespace Heist
             StoreListing temp;
             try
             {
-                items = await Table.Where(Book
+                items = await Table.Take(15).Where(Book
                         => Book.IsReady == true).ToCollectionAsync();
                 foreach (Book lol in items)
                 {
@@ -86,8 +86,8 @@ namespace Heist
                 }
 
 
-                Box.AutoCompleteSource = BookNames;
-                Box2.AutoCompleteSource = CollNames;
+               
+               
 
                 StoreListView.ItemsSource = StoreList;
                 StoreListView2.ItemsSource = items2;
@@ -162,7 +162,7 @@ namespace Heist
             StoreListing temp;
             try
             {
-                items = await Table.Where(Book
+                items = await Table.Take(15).Where(Book
                         => Book.Title.Contains(Box.Text) && Book.IsReady == true).ToCollectionAsync();
                 foreach (Book lol in items)
                 {
