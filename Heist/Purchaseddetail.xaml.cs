@@ -153,10 +153,6 @@ namespace Heist
                 var test3 = test2.Children[2] as TextBlock;
                 var test4 = test2.Children[0] as TextBlock;
                 string nam = test4.Text;
-                 
-                //test code call
-               // lo(test3.Text);
-                // 
         
                 string titl = Title.Text;
                 Uri url = new Uri("https://ebookstreamer.me/downloads");
@@ -254,51 +250,5 @@ namespace Heist
             Frame.Navigate(typeof(MyCollection));
         }
 
-        public async void lo(string st)
-        {
-            StringBuilder postString = new StringBuilder();
-            postString.Append("&");
-            postString.AppendFormat("{0}={1}", "id", "lololo");
-            ASCIIEncoding ascii = new ASCIIEncoding();
-            byte[] byteArray = ascii.GetBytes(postString.ToString());
-
-            // Create a request using a URL that can receive a post. 
-            String MyURI = "https://posttestserver.com/post.php/";
-
-            WebRequest request = WebRequest.Create(MyURI);
-            // Set the Method property of the request to POST.
-            request.Method = "POST";
-            // Create POST data and convert it to a byte array.
-            //byte[] byteArray = Encoding.UTF8.GetBytes(postData);
-            // Set the ContentType property of the WebRequest.
-            request.ContentType = "application/x-www-form-urlencoded";
-            // Set the ContentLength property of the WebRequest.
-            // Get the request stream.
-            Stream dataStream = await request.GetRequestStreamAsync();
-            // Write the data to the request stream.
-           
-            dataStream.Write(byteArray, 0, byteArray.Length);
-            // Close the Stream object.
-
-            // Get the response.
-            WebResponse response = await request.GetResponseAsync();
-            // Display the status.
-            string mes = ((HttpWebResponse)response).StatusDescription;
-            // Get the stream containing content returned by the server.
-            dataStream = response.GetResponseStream();
-            // Open the stream using a StreamReader for easy access.
-            StreamReader reader = new StreamReader(dataStream);
-            // Read the content.
-            string responseFromServer = reader.ReadToEnd();
-            // Display the content.
-           string res= (responseFromServer);
-            // Clean up the streams.
-            reader.Dispose();
-            dataStream.Dispose();
-            response.Dispose();
-
-
-
-        }
     }
 }
