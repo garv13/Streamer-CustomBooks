@@ -13,136 +13,69 @@ namespace Heist
 {
     class EncryptionClass
     {
-
-        public byte[] Encrypt(byte[] data)
+        public string AES_Encrypt(IBuffer input)
         {
-
-            String strMsg = String.Empty;           // Message string
-            String strAlgName = String.Empty;       // Algorithm name
-            UInt32 keyLength = 0;                   // Length of key
-            BinaryStringEncoding encoding;          // Binary encoding type
-            IBuffer iv;                             // Initialization vector
-            CryptographicKey key;                   // Symmetric Key
-
-            strMsg = BitConverter.ToString(data);
-            strAlgName = SymmetricAlgorithmNames.AesCbcPkcs7;
-            keyLength = 32;
-
-            IBuffer buffEncrypted = this.SampleCipherEncryption(
-              strMsg,
-              strAlgName,
-              keyLength,
-              out encoding,
-              out iv,
-              out key);
-
-            Stream str = buffEncrypted.AsStream();
-            byte[] b = buffEncrypted.ToArray();
-            return b;
-
-        }
-
-        
-        //public byte[] Decrypt(byte[] data)
-        //{
-        //    byte[] bi = data;
-
-        //    String strMsg = String.Empty;           // Message string
-        //    String strAlgName = String.Empty;       // Algorithm name
-        //    UInt32 keyLength = 0;                   // Length of key
-        //    BinaryStringEncoding encoding;          // Binary encoding type
-        //    IBuffer iv;                             // Initialization vector
-        //    CryptographicKey key;                   // Symmetric Key
-
-        //    strMsg = BitConverter.ToString(data);
-        //    strAlgName = SymmetricAlgorithmNames.AesCbcPkcs7;
-        //    keyLength = 32;
-
-
-        //    IBuffer buffEncrypted = bi.AsBuffer();
-        //    this.SampleCipherDecryption(
-        //        strAlgName,
-        //        buffEncrypted,
-        //        iv,
-        //        encoding,
-        //        key);
-        //}
-
-
-        private IBuffer SampleCipherEncryption(
-         String strMsg,
-         String strAlgName,
-         UInt32 keyLength,
-         out BinaryStringEncoding encoding,
-         out IBuffer iv,
-         out CryptographicKey key)
-        {
-            // Initialize the initialization vector.
-            iv = null;
-
-            // Initialize the binary encoding value.
-            encoding = BinaryStringEncoding.Utf8;
-
-            // Create a buffer that contains the encoded message to be encrypted. 
-            IBuffer buffMsg = CryptographicBuffer.ConvertStringToBinary(strMsg, encoding);
-
-            // Open a symmetric algorithm provider for the specified algorithm. 
-            SymmetricKeyAlgorithmProvider objAlg = SymmetricKeyAlgorithmProvider.OpenAlgorithm(strAlgName);
-
-            // Determine whether the message length is a multiple of the block length.
-            // This is not necessary for PKCS #7 algorithms which automatically pad the
-            // message to an appropriate length.
-            if (!strAlgName.Contains("PKCS7"))
+            SymmetricKeyAlgorithmProvider SAP = SymmetricKeyAlgorithmProvider.OpenAlgorithm(SymmetricAlgorithmNames.AesEcbPkcs7);
+            CryptographicKey AES;
+            HashAlgorithmProvider HAP = HashAlgorithmProvider.OpenAlgorithm(HashAlgorithmNames.Md5);
+            CryptographicHash Hash_AES = HAP.CreateHash();
+            string pass = "Lol@071721";
+            string encrypted = "";
+            try
             {
-                if ((buffMsg.Length % objAlg.BlockLength) != 0)
-                {
-                    throw new Exception("Message buffer length must be multiple of block length.");
-                }
+                byte[] hash = new byte[32];
+                Hash_AES.Append(CryptographicBuffer.CreateFromByteArray(Encoding.UTF8.GetBytes(pass)));
+                byte[] temp;
+                CryptographicBuffer.CopyToByteArray(Hash_AES.GetValueAndReset(), out temp);
+
+                Array.Copy(temp, 0, hash, 0, 16);
+                Array.Copy(temp, 0, hash, 15, 16);
+
+                AES = SAP.CreateSymmetricKey(CryptographicBuffer.CreateFromByteArray(hash));
+
+                IBuffer Buffer = input;
+                encrypted = CryptographicBuffer.EncodeToBase64String(CryptographicEngine.Encrypt(AES, Buffer, null));
+
+                return encrypted;
             }
-
-            // Create a symmetric key.
-            byte[] br = new byte[] { 3, 9, 4, 5, 6, 7, 6, 8, 3, 9, 4, 6, 5, 4, 1, 5, 5, 2, 7, 5, 7, 6, 8, 1, 6, 5, 2, 3, 1, 6, 4, 3 };
-            IBuffer keyMaterial = CryptographicBuffer.CreateFromByteArray(br);
-            key = objAlg.CreateSymmetricKey(keyMaterial);
-
-            // CBC algorithms require an initialization vector. Here, a random
-            // number is used for the vector.
-            if (strAlgName.Contains("CBC"))
+            catch (Exception ex)
             {
-                iv = CryptographicBuffer.GenerateRandom(objAlg.BlockLength);
+                return null;
             }
-
-            // Encrypt the data and return.
-            IBuffer buffEncrypt = CryptographicEngine.Encrypt(key, buffMsg, iv);
-            return buffEncrypt;
         }
 
-        private void SampleCipherDecryption(
-          String strAlgName,
-          IBuffer buffEncrypt,
-          IBuffer iv,
-          BinaryStringEncoding encoding,
-          CryptographicKey key)
+
+        public byte[] AES_Decrypt(string input)
         {
-            // Declare a buffer to contain the decrypted data.
-            IBuffer buffDecrypted;
+            SymmetricKeyAlgorithmProvider SAP = SymmetricKeyAlgorithmProvider.OpenAlgorithm(SymmetricAlgorithmNames.AesEcbPkcs7);
+            CryptographicKey AES;
+            HashAlgorithmProvider HAP = HashAlgorithmProvider.OpenAlgorithm(HashAlgorithmNames.Md5);
+            CryptographicHash Hash_AES = HAP.CreateHash();
+            string pass = "Lol@071721";
+           // string decrypted = "";
+            try
+            {
+                byte[] hash = new byte[32];
+                Hash_AES.Append(CryptographicBuffer.CreateFromByteArray(System.Text.Encoding.UTF8.GetBytes(pass)));
+                byte[] temp;
+                CryptographicBuffer.CopyToByteArray(Hash_AES.GetValueAndReset(), out temp);
 
-            // Open an symmetric algorithm provider for the specified algorithm. 
-            SymmetricKeyAlgorithmProvider objAlg = SymmetricKeyAlgorithmProvider.OpenAlgorithm(strAlgName);
+                Array.Copy(temp, 0, hash, 0, 16);
+                Array.Copy(temp, 0, hash, 15, 16);
 
-            // The input key must be securely shared between the sender of the encrypted message
-            // and the recipient. The initialization vector must also be shared but does not
-            // need to be shared in a secure manner. If the sender encodes a message string 
-            // to a buffer, the binary encoding method must also be shared with the recipient.
-            buffDecrypted = CryptographicEngine.Decrypt(key, buffEncrypt, iv);
+                AES = SAP.CreateSymmetricKey(CryptographicBuffer.CreateFromByteArray(hash));
 
-            // Convert the decrypted buffer to a string (for display). If the sender created the
-            // original message buffer from a string, the sender must tell the recipient what 
-            // BinaryStringEncoding value was used. Here, BinaryStringEncoding.Utf8 is used to
-            // convert the message to a buffer before encryption and to convert the decrypted
-            // buffer back to the original plaintext.
-            String strDecrypted = CryptographicBuffer.ConvertBinaryToString(encoding, buffDecrypted);
+                IBuffer Buffer = CryptographicBuffer.DecodeFromBase64String(input);
+                byte[] Decrypted;
+                CryptographicBuffer.CopyToByteArray(CryptographicEngine.Decrypt(AES, Buffer, null), out Decrypted);
+               // decrypted = System.Text.Encoding.UTF8.GetString(Decrypted, 0, Decrypted.Length);
+
+                return Decrypted;
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
         }
-
     }
 }

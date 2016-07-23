@@ -24,6 +24,8 @@
                     <TextBlock Text="{Binding BookName}" FontSize="26" TextWrapping="WrapWholeWords" Foreground="White"  Padding="10" Margin="10" VerticalAlignment="Stretch"  HorizontalAlignment="Stretch"/>
                     <TextBlock Text="{Binding ChapterNo}" TextWrapping="WrapWholeWords" FontSize="26" Foreground="White"  Padding="10" Margin="10" VerticalAlignment="Stretch" Grid.Column="1"  HorizontalAlignment="Stretch"/>
                     <RadioButton IsChecked="{Binding sel}" FontSize="20" Checked="radioButton_Checked" x:Name="radioButton" Grid.Column="2" Padding="10" Margin="10" Content="Select" HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" GroupName="lol"/>
+                    <TextBlock Text="{Binding ChapterId}" Visibility="Collapsed" FontSize="16" Foreground="White"  Padding="10" Margin="10" VerticalAlignment="Stretch"  HorizontalAlignment="Stretch"/>
+
                 </Grid>
             </DataTemplate>
         </ResourceDictionary>
@@ -43,8 +45,8 @@
                 <RadioButton x:Name="MenuButton3" Tag="" Content="Purchased" IsChecked="True" Style="{StaticResource SplitViewNavButtonStyle}"
                         Click="MenuButton3_Click"/>
 
-                <RadioButton x:Name="MenuButton7" Tag="" Content="Collections"
-                         Style="{StaticResource SplitViewNavButtonStyle}" Click="MenuButton7_Click"/>
+               
+                         
 
                 <RadioButton x:Name="MenuButton4" Tag="" Content="Store"
                          Style="{StaticResource SplitViewNavButtonStyle}" Click="MenuButton4_Click"/>

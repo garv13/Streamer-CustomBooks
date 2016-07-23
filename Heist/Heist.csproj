@@ -99,10 +99,10 @@
     <Content Include="Assets\39b18410-339f-0133-4763-0a2ca390b4472.jpg" />
     <Content Include="Assets\ArrowPic.png" />
     <Content Include="Assets\BooksCollections.png" />
-    <Content Include="Assets\whataboutme.jpg" />
-    <Content Include="Assets\white-arrow.png" />
     <Content Include="Assets\white-arrowDown.png" />
     <Content Include="Assets\white-arrowUp.png" />
+    <Content Include="Assets\whataboutme.jpg" />
+    <Content Include="Assets\white-arrow.png" />
     <Content Include="ebookstreamer_me.crt" />
     <Content Include="Assets\lol.txt" />
     <None Include="project.json" />

@@ -73,8 +73,8 @@
                 <RadioButton x:Name="MenuButton3" Tag="" Content="Purchased" Style="{StaticResource SplitViewNavButtonStyle}"
                         Click="MenuButton3_Click"/>
 
-                <RadioButton x:Name="MenuButton7" Tag="" Content="Collections"
-                         Style="{StaticResource SplitViewNavButtonStyle}" Click="MenuButton7_Click"/>
+               
+                         
 
                 <RadioButton x:Name="MenuButton4" Tag="" Content="Store"  IsChecked="True"
                          Style="{StaticResource SplitViewNavButtonStyle}" Click="MenuButton4_Click"/>

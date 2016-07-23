@@ -155,6 +155,10 @@ namespace Heist
                 string nam = test4.Text;
         
                 string titl = Title.Text;
+                char c = titl.ElementAt(titl.Length - 1);
+                if (c.CompareTo('.') == 0)
+                    titl = titl.Remove(titl.Length - 1);
+
                 Uri url = new Uri("https://ebookstreamer.me/downloads");
                 HttpClient httpClient = new HttpClient();
                 var myClientHandler = new HttpClientHandler();
@@ -171,6 +175,8 @@ namespace Heist
 
                 byte[] pd = new byte[str.Length];
                 str.Read(pd, 0, pd.Length);
+                EncryptionClass Eob = new EncryptionClass();
+                string EncStr = Eob.AES_Encrypt(pd.AsBuffer()); // added line
                 try
                 {
                     StorageFolder mainFol = await ApplicationData.Current.LocalFolder.CreateFolderAsync(testlol + "My Books", CreationCollisionOption.OpenIfExists);
@@ -180,11 +186,14 @@ namespace Heist
                         if (folder != null)
                         {
                             StorageFile file = await folder.CreateFileAsync(nam + ".txt", CreationCollisionOption.ReplaceExisting);
-                            using (var fileStream = await file.OpenStreamForWriteAsync())
-                            {
-                                str.Seek(0, SeekOrigin.Begin);
-                                await str.CopyToAsync(fileStream);
-                            }
+                            await Windows.Storage.FileIO.WriteTextAsync(file, EncStr);
+
+                            //using (var fileStream = await file.OpenStreamForWriteAsync())
+                            //{
+                            //    str.Seek(0, SeekOrigin.Begin);
+                            //    await str.CopyToAsync(fileStream);
+                            //}
+
                             StorageFile useFile =
                            await folder.CreateFileAsync("UserName.txt", CreationCollisionOption.ReplaceExisting);
                            await Windows.Storage.FileIO.WriteTextAsync(useFile, sn);                                                                               
@@ -198,7 +207,7 @@ namespace Heist
                     await (new MessageDialog("Download Successful")).ShowAsync();
                     Frame.Navigate(typeof(Downloads));
                 }
-                catch (Exception)
+                catch (Exception ee)
                 {
                     LoadingBar.Visibility = Visibility.Collapsed;
                     await (new MessageDialog("Can't download now please try after sometime")).ShowAsync();
@@ -245,10 +254,8 @@ namespace Heist
             await (new MessageDialog("You are successfully loged out :):)")).ShowAsync();
             Frame.Navigate(typeof(Login));
         }
-        private void MenuButton7_Click(object sender, RoutedEventArgs e)
-        {
-            Frame.Navigate(typeof(MyCollection));
-        }
+      
+   
 
     }
 }

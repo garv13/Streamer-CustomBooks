@@ -16,41 +16,53 @@
             </ResourceDictionary.MergedDictionaries>
 
             <DataTemplate x:Key="Standard3100x260ItemTemplate" ScrollViewer.VerticalScrollMode="Auto" ScrollViewer.VerticalScrollBarVisibility="Auto">
-                <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="400" Margin="10,10" Background="#253375" Tapped="Grid_Tapped">
+                <Grid Margin="10,10" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="White" Height="110" Width="400" Tapped="Grid_Tapped" >
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="0.5*"/>
-                        <RowDefinition Height="0.5*"/>
+                        <RowDefinition Height="0.3*"/>
+                        <RowDefinition Height="0.3*"/>
+                        <RowDefinition Height="0.4*"/>
+
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="100"/>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
-                    <Image x:Name="img" Source="{Binding Image}" Height="100" Width="100" Grid.Row="0" Grid.RowSpan="2" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    <Image x:Name="img" Source="{Binding Image}" Stretch="UniformToFill" Height="100" Width="100" Grid.Row="0" Grid.RowSpan="3" Margin="5,5,5,5" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    <Border Background="#253375"  Grid.Row="0" Grid.Column="1">
+                        <TextBlock x:Name="title" Text="{Binding title}"  FontSize="20" Foreground="White" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="10,0,0,0"/>
+                    </Border>
+                    <Border Background="#253375"   Grid.Row="1" Grid.Column="1">
+                        <TextBlock x:Name="authName" Text="{Binding authName}" FontSize="15" Foreground="White" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="10,0,0,0"/>
+                    </Border>
+                    <Border Background="#253375"   Grid.Row="2" Grid.Column="1">
+                        <TextBlock FontSize="15" Foreground="Black" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="10,0,0,0"/>
 
-                    <TextBlock x:Name="title" Text="{Binding title}" FontSize="25" TextWrapping="WrapWholeWords" Margin="15,0,0,0" Foreground="White" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
-                  
-                   
-                    <TextBlock x:Name="authName" Text="{Binding authName}" FontSize="20" Foreground="White" Grid.Row="1" Grid.Column="1" Margin="0,0,10,10" HorizontalAlignment="Right" VerticalAlignment="Bottom"/>
-                    
+                    </Border>
                 </Grid>
             </DataTemplate>
 
             <DataTemplate x:Key="Standard3100x2601ItemTemplate" ScrollViewer.VerticalScrollMode="Auto" ScrollViewer.VerticalScrollBarVisibility="Auto">
-                <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="400" Margin="10,10" Background="#253375" Tapped="Grid_Tapped_1">
+                <Grid Margin="10,10" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="White" Height="110" Width="400" Tapped="Grid_Tapped_1" >
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="0.5*"/>
-                        <RowDefinition Height="0.5*"/>
+                        <RowDefinition Height="0.3*"/>
+                        <RowDefinition Height="0.3*"/>
+                        <RowDefinition Height="0.4*"/>
+
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="100"/>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
-                    <Image x:Name="img" Source="{Binding Image}" Height="100" Width="100" Grid.Row="0" Grid.RowSpan="2" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-
-                    <TextBlock x:Name="title" Text="{Binding title}" FontSize="25" TextWrapping="WrapWholeWords" Margin="15,0,0,0" Foreground="White" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
-
-                    <TextBlock x:Name="authName" Text="{Binding authName}" FontSize="20" Foreground="White" Grid.Row="1" Grid.Column="1" Margin="0,0,10,10" HorizontalAlignment="Right" VerticalAlignment="Bottom"/>
-
+                    <Image x:Name="img" Source="{Binding Image}" Stretch="UniformToFill" Height="100" Width="100" Grid.Row="0" Grid.RowSpan="3" Margin="5,5,5,5" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    <Border Background="#253375"  Grid.Row="0" Grid.Column="1">
+                        <TextBlock x:Name="title" Text="{Binding title}"  FontSize="20" Foreground="White" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="10,0,0,0"/>
+                    </Border>
+                    <Border Background="#253375"   Grid.Row="1" Grid.Column="1">
+                        <TextBlock x:Name="authName" Text="{Binding authName}" FontSize="15" Foreground="White" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="10,0,0,0"/>
+                    </Border>
+                    <Border Background="#253375"   Grid.Row="2" Grid.Column="1">
+                        <TextBlock FontSize="15" Foreground="Black" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="10,0,0,0"/>
+                    </Border>
                 </Grid>
             </DataTemplate>
         </ResourceDictionary>
@@ -69,8 +81,8 @@
                 <RadioButton x:Name="MenuButton3" Tag="" Content="Purchased" Style="{StaticResource SplitViewNavButtonStyle}"
                         Click="MenuButton3_Click"/>
 
-                <RadioButton x:Name="MenuButton7" Tag="" Content="Collections"
-                         Style="{StaticResource SplitViewNavButtonStyle}" Click="MenuButton7_Click"/>
+               
+                         
 
                 <RadioButton x:Name="MenuButton4" Tag="" Content="Store"
                          Style="{StaticResource SplitViewNavButtonStyle}" Click="MenuButton4_Click"/>

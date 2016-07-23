@@ -51,8 +51,6 @@ namespace Heist
             LoadingBar.IsIndeterminate = true;
             try
             {
-
-
                 StorageFolder folder = Windows.Storage.ApplicationData.Current.LocalFolder;
                 StorageFile sampleFile = await folder.GetFileAsync("sample.txt");
                 testlol = await Windows.Storage.FileIO.ReadTextAsync(sampleFile);
@@ -140,10 +138,7 @@ namespace Heist
             Frame.Navigate(typeof(About));
         }
 
-        private void MenuButton7_Click(object sender, RoutedEventArgs e)
-        {
-            Frame.Navigate(typeof(MyCollection));
-        }
+       // replaced with My collection page navigation 
         private async void MenuButton6_Click(object sender, RoutedEventArgs e)
         {
             await (new MessageDialog("You are successfully loged out :):)")).ShowAsync();
@@ -161,7 +156,7 @@ namespace Heist
         }
         private void BackBar_Click(object sender, RoutedEventArgs e)
         {
-            Frame.Navigate(typeof(MyCollection));
+            Frame.Navigate(typeof(Purchased));
         }
     }
 }

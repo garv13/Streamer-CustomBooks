@@ -39,8 +39,6 @@ namespace Heist
             this.InitializeComponent();
             lol();
         }
-        //private IMobileServiceTable<Book> Table2 = App.MobileService.GetTable<Book>();
-        //private MobileServiceCollection<Book, Book> items2;
         public BitmapImage Im { get; set; }
         string testlol;
         BookData ob = new BookData();
@@ -59,7 +57,9 @@ namespace Heist
         }
         async Task retreive(string name)
         {
-    
+            char c = name.ElementAt(name.Length - 1);
+            if (c.CompareTo('.') == 0)
+                name = name.Remove(name.Length - 1);
             try
             {
                 List<GridClass> lg = new List<GridClass>();
@@ -156,10 +156,7 @@ namespace Heist
             Frame.Navigate(typeof(About));
         }
 
-        private void MenuButton7_Click(object sender, RoutedEventArgs e)
-        {
-            Frame.Navigate(typeof(MyCollection));
-        }
+
         private async void MenuButton6_Click(object sender, RoutedEventArgs e)
         {
             await(new MessageDialog("You are successfully loged out :):)")).ShowAsync();
@@ -272,23 +269,27 @@ namespace Heist
             {
                 if ((Grid.GetRow(child) == 0) && (Grid.GetColumn(child) == 1))
                 {
-                    titl = child;
+                    Border b = child as Border;
+
+                    titl = b.Child as FrameworkElement;
                 }
 
 
                 if ((Grid.GetRow(child) == 1) && (Grid.GetColumn(child) == 1))
                 {
-                    auth = child;
+                    Border b = child as Border;
+
+                    auth = b.Child as FrameworkElement;
                 }
             }
-            TextBlock t = auth as TextBlock;
-            TextBlock t2 = titl as TextBlock;
+            TextBlock t = titl as TextBlock;
+            TextBlock t2 = auth as TextBlock;
             
-            string str = t.Text;
+            string str = t2.Text;
 
             if (str != "")
-                await retreive(t2.Text);
-            else if (t2.Text.CompareTo("about me") == 0)
+                await retreive(t.Text);
+            else if (t.Text.CompareTo("about me") == 0)
             {
                 await printPdf("ms-appx://Assets/test.pdf");
                 event2.Visibility = Visibility.Collapsed;
@@ -297,7 +298,7 @@ namespace Heist
             }
             else
             {
-                string nam = t2.Text;
+                string nam = t.Text;
                 await printPdf(nam + ".txt");
                 event2.Visibility = Visibility.Collapsed;
                 PdfGrid.Visibility = Visibility.Visible;
@@ -330,10 +331,15 @@ namespace Heist
                     Frame.Navigate(typeof(Downloads));
                  }
                 StorageFile file = await openBook.GetFileAsync(text);
-                var l = await file.OpenAsync(FileAccessMode.Read);
-                Stream str = l.AsStreamForRead();
-                byte[] buffer = new byte[str.Length];
-                str.Read(buffer, 0, buffer.Length);
+               string StDec = await FileIO.ReadTextAsync(file);
+
+                //var l = await file.OpenAsync(FileAccessMode.Read);
+                //Stream str = l.AsStreamForRead();
+                //byte[] buffer = new byte[str.Length];
+                //str.Read(buffer, 0, buffer.Length);
+                EncryptionClass eob = new EncryptionClass();
+
+                byte[] buffer = eob.AES_Decrypt(StDec);
 
                 // Loads the PDF document.
                
@@ -348,6 +354,7 @@ namespace Heist
             {
                 LoadingBar.Visibility = Visibility.Collapsed;
                 await (new MessageDialog("Can't open Pdf")).ShowAsync();
+                Frame.Navigate(typeof(Downloads));
             }
         }
 
@@ -372,10 +379,15 @@ namespace Heist
                 }
 
                 StorageFile file = await openBook.GetFileAsync(text);
-                var l = await file.OpenAsync(FileAccessMode.Read);
-                Stream str = l.AsStreamForRead();
-                buffer = new byte[str.Length];
-                str.Read(buffer, 0, buffer.Length);
+                string StDec = await FileIO.ReadTextAsync(file);
+                EncryptionClass eob = new EncryptionClass();
+
+                buffer = eob.AES_Decrypt(StDec);
+
+                //var l = await file.OpenAsync(FileAccessMode.Read);
+                //Stream str = l.AsStreamForRead();
+                //buffer = new byte[str.Length];
+                //str.Read(buffer, 0, buffer.Length);
                 p:;
                 // Loads the PDF document.
                 PdfLoadedDocument ldoc = new PdfLoadedDocument(buffer);
@@ -396,21 +408,27 @@ namespace Heist
                 SpeechSynthesisStream syntStream = await synt.SynthesizeTextToStreamAsync(s);
                 mediaElement.DefaultPlaybackRate = 0.85;
                 mediaElement.SetSource(syntStream, syntStream.ContentType);
-                mediaElement.Play();
+              
                 LoadingBarPdf.Visibility = Visibility.Collapsed;
+                LoadingBarPdf1.Visibility = Visibility.Collapsed;
+                mediaElement.Play();
 
             }
             catch(Exception)
             {
                 LoadingBarPdf.Visibility = Visibility.Collapsed;
+                LoadingBarPdf1.Visibility = Visibility.Collapsed;
                 await (new MessageDialog("Can't read Pdf")).ShowAsync();
+                Frame.Navigate(typeof(Downloads));
             }
         }
 
         private async void PlayPdf_Click(object sender, RoutedEventArgs e)
         {
             LoadingBarPdf.IsActive = true;
-            LoadingBarPdf.Visibility = Visibility.Visible;     
+            LoadingBarPdf.Visibility = Visibility.Visible;
+            LoadingBarPdf1.IsActive = true;
+            LoadingBarPdf1.Visibility = Visibility.Visible;
             await tts(loc);
 
         }
@@ -426,12 +444,16 @@ namespace Heist
             {
                 if ((Grid.GetRow(child) == 0) && (Grid.GetColumn(child) == 1))
                 {
-                    titl = child;
+                    Border b = child as Border;
+
+                    titl = b.Child as FrameworkElement;
                 }
 
                 if ((Grid.GetRow(child) == 1) && (Grid.GetColumn(child) == 1))
                 {
-                    auth = child;
+                    Border b = child as Border;
+
+                    auth = b.Child as FrameworkElement;
                 }
             }
                 TextBlock t = auth as TextBlock;

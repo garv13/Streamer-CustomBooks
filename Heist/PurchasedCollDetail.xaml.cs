@@ -62,7 +62,7 @@ namespace Heist
 
             items3 = await Table3.Where(User
                              => User.username == testlol).ToCollectionAsync();
-            test = items3[0].purchases;
+            test = items3[0].collections;
 
             CollList = new List<CollView>();
             book = new List<string>();
@@ -81,7 +81,7 @@ namespace Heist
             string[] lis = rec.purchases.Split(',');
 
                 items4 = await Table4.Where(Collections
-                             =>Collections.Id == lis[0]).ToCollectionAsync();
+                             =>Collections.Id == rec.sel.Id).ToCollectionAsync();
                 string[] temp1 = items4[0].books.Split(',');
 
 
@@ -199,12 +199,16 @@ namespace Heist
                                         Stream str = await httpResponse.Content.ReadAsStreamAsync();
                                         byte[] pd = new byte[str.Length];
                                         str.Read(pd, 0, pd.Length);
+                                        EncryptionClass Eob = new EncryptionClass();
+                                        string EncStr = Eob.AES_Encrypt(pd.AsBuffer());
 
-                                        using (var fileStream = await file.OpenStreamForWriteAsync())
-                                        {
-                                            str.Seek(0, SeekOrigin.Begin);
-                                            await str.CopyToAsync(fileStream);
-                                        }
+                                        await Windows.Storage.FileIO.WriteTextAsync(file, EncStr);
+
+                                        //using (var fileStream = await file.OpenStreamForWriteAsync())
+                                        //{
+                                        //    str.Seek(0, SeekOrigin.Begin);
+                                        //    await str.CopyToAsync(fileStream);
+                                        //}
                                     }
                                    
                                 }
@@ -230,6 +234,7 @@ namespace Heist
             {
                 LoadingBar.Visibility = Visibility.Collapsed;
                 await (new MessageDialog("Something bad happened :(:(")).ShowAsync();
+                Frame.Navigate(typeof(Downloads));
             }
         }
          
@@ -271,9 +276,6 @@ namespace Heist
             await (new MessageDialog("You are successfully loged out :):)")).ShowAsync();
             Frame.Navigate(typeof(Login));
         }
-        private void MenuButton7_Click(object sender, RoutedEventArgs e)
-        {
-            Frame.Navigate(typeof(MyCollection));
-        }
+
     }
 }

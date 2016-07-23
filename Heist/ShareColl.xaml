@@ -29,8 +29,8 @@
                 <RadioButton x:Name="MenuButton3" Tag="" Content="Purchased" IsChecked="True" Style="{StaticResource SplitViewNavButtonStyle}"
                         Click="MenuButton3_Click"/>
 
-                <RadioButton x:Name="MenuButton7" Tag="" Content="Collections"
-                         Style="{StaticResource SplitViewNavButtonStyle}" Click="MenuButton7_Click"/>
+               
+                         
 
                 <RadioButton x:Name="MenuButton4" Tag="" Content="Store"
                          Style="{StaticResource SplitViewNavButtonStyle}" Click="MenuButton4_Click"/>
@@ -67,7 +67,6 @@
 
                 </Grid.ColumnDefinitions>
                 <TextBlock Grid.ColumnSpan="2" Grid.Column="2" Grid.Row="1" Margin="50"  Text="Your collection was created succesfully" FontSize="46" Foreground="Gray" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
-                <Button Background="#FF112F60" Content="Share in the store" HorizontalAlignment="Stretch" Margin="50" VerticalAlignment="Stretch" Grid.Column="2" Grid.Row="2" Click="Button_Click"/>
                 <Button Background="#FF064629" Content="Go to my Collections" HorizontalAlignment="Stretch" Margin="50" VerticalAlignment="Stretch" Grid.Column="3" Grid.Row="2" Click="Button_Click_1"/>
                 <ProgressRing Grid.ColumnSpan="4" Grid.RowSpan="4" x:Name="LoadingBar" Visibility="Collapsed" Height="40" Width="40" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
             </Grid>

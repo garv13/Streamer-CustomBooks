@@ -27,7 +27,6 @@
                     </Grid.ColumnDefinitions>
                     <TextBlock x:Name="Title" Text="{Binding Book}" FontFamily="Rockwell" Width="auto" FontSize="25" Foreground="White"  Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="15,0,0,0"/>
                     <TextBlock Grid.Column="1" x:Name="Chapter" Text="{Binding Chapter}" FontFamily="Rockwell" Width="auto" FontSize="25" Foreground="White"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="15,0,0,0"/>
-                    <Button x:Name="Buy" Content="Download" Margin="10,0" FontSize="25" Foreground="White" Background="Transparent" Click="Buy_Click" Grid.Column="5"/>
                 </Grid>
             </DataTemplate>
         </ResourceDictionary>
@@ -46,8 +45,8 @@
                 <RadioButton x:Name="MenuButton3" Tag="" Content="Purchased" IsChecked="True" Style="{StaticResource SplitViewNavButtonStyle}"
                         Click="MenuButton3_Click"/>
 
-                <RadioButton x:Name="MenuButton7" Tag="" Content="Collections"
-                         Style="{StaticResource SplitViewNavButtonStyle}" Click="MenuButton7_Click"/>
+               
+                         
 
                 <RadioButton x:Name="MenuButton4" Tag="" Content="Store"
                          Style="{StaticResource SplitViewNavButtonStyle}" Click="MenuButton4_Click"/>
@@ -93,6 +92,7 @@
                             </Grid.RowDefinitions>
                             <TextBlock x:Name="Title" Text="Title" FontSize="35" Grid.Row="1"/>
                             <TextBlock x:Name="Author" Text="Author" FontSize="25" Grid.Row="2"/>
+                            <Button x:Name="Buy" Content="Download" Margin="10,0" FontSize="25" Foreground="White" Background="Transparent" Click="Buy_Click" Grid.Row="3"/>
 
 
                         </Grid>

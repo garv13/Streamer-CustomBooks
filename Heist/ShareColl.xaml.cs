@@ -59,7 +59,7 @@ namespace Heist
             a.collections += myList.Id + ",";//adding collection to user list
             await Table3.UpdateAsync(a);
             await (new MessageDialog("Your collection was made!!")).ShowAsync();
-            Frame.Navigate(typeof(MyCollection));
+            Frame.Navigate(typeof(Purchased));
         }
 
         private void HamburgerButton_Click(object sender, RoutedEventArgs e)
@@ -97,19 +97,11 @@ namespace Heist
             await (new MessageDialog("You are successfully loged out :):)")).ShowAsync();
             Frame.Navigate(typeof(Login));
         }
-        private void MenuButton7_Click(object sender, RoutedEventArgs e)
-        {
-            Frame.Navigate(typeof(MyCollection));
-        }
-
-        private async void Button_Click(object sender, RoutedEventArgs e)
-        {
-           
-        }
+       // replaced with My collection page navigation 
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
-            Frame.Navigate(typeof(MyCollection));
+            Frame.Navigate(typeof(Purchased));
         }
     }
 }

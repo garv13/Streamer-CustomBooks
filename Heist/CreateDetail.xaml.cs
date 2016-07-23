@@ -200,10 +200,8 @@ namespace Heist
             await (new MessageDialog("You are successfully loged out :):)")).ShowAsync();
             Frame.Navigate(typeof(Login));
         }
-        private void MenuButton7_Click(object sender, RoutedEventArgs e)
-        {
-            Frame.Navigate(typeof(MyCollection));
-        }
+       // replaced with My collection page navigation 
+      
 
         private async void NextBar_Click(object sender, RoutedEventArgs e)
         {

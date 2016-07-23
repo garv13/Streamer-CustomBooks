@@ -364,10 +364,8 @@ namespace Heist
         }
 
 
-    private void MenuButton7_Click(object sender, RoutedEventArgs e)
-        {
-            Frame.Navigate(typeof(MyCollection));
-        }
+   // replaced with My collection page navigation 
+
         private void CreateColl_Click(object sender, RoutedEventArgs e)
         {
             Frame.Navigate(typeof(CreateCollection));

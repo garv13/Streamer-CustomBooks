@@ -73,10 +73,8 @@ namespace Heist
             Frame.Navigate(typeof(About));
         }
 
-        private void MenuButton7_Click(object sender, RoutedEventArgs e)
-        {
-            Frame.Navigate(typeof(MyCollection));
-        }
+       // replaced with My collection page navigation 
+       
 
         private async void MenuButton6_Click(object sender, RoutedEventArgs e)
         {

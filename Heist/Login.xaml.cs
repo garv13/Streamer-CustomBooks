@@ -9,7 +9,9 @@ using System.Text;
 using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.Security.Cryptography;
 using Windows.Storage;
+using Windows.Storage.Streams;
 using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -73,7 +75,10 @@ namespace Heist
                         StorageFile notNet =
                             await folder.CreateFileAsync("check.txt", CreationCollisionOption.ReplaceExisting);
                         string sn = JsonConvert.SerializeObject(oc);
-                        await Windows.Storage.FileIO.WriteTextAsync(notNet, sn);
+                        IBuffer Buffer = CryptographicBuffer.CreateFromByteArray(System.Text.Encoding.UTF8.GetBytes(sn));
+                        EncryptionClass Eob = new EncryptionClass();
+                        string sb = Eob.AES_Encrypt(Buffer);
+                        await FileIO.WriteTextAsync(notNet, sb);
 
                         Frame.Navigate(typeof(Downloads));
                     }
@@ -92,12 +97,16 @@ namespace Heist
                     OfflineCheck o;
                     StorageFolder folder = Windows.Storage.ApplicationData.Current.LocalFolder;
                     StorageFile sampleFile = await folder.GetFileAsync("check.txt");
-                    var t = await sampleFile.OpenAsync(FileAccessMode.Read);
-                    Stream na = t.AsStreamForRead();
-                    using (var streamReader = new StreamReader(na, Encoding.UTF8))
-                    {
-                        string line;
-                        line = streamReader.ReadToEnd();
+                    string StDec = await FileIO.ReadTextAsync(sampleFile);
+                    EncryptionClass eob = new EncryptionClass();
+
+                    byte[] buffer = eob.AES_Decrypt(StDec);
+                    string line = Encoding.UTF8.GetString(buffer, 0, buffer.Length);
+
+                    //var t = await sampleFile.OpenAsync(FileAccessMode.Read);
+                    //Stream na = t.AsStreamForRead();
+
+                      
                         o = JsonConvert.DeserializeObject<OfflineCheck>(line);
                         if ((UserName.Text.CompareTo(o.userName) == 0) && (Password.Password.CompareTo(o.password) == 0))
                         {
@@ -108,7 +117,6 @@ namespace Heist
                             await msgbo.ShowAsync();
                             Frame.Navigate(typeof(Downloads));
                         }
-                    }
                 }
                 catch (Exception)
                 {

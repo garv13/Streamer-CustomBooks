@@ -140,12 +140,7 @@ namespace Heist
         {
             Frame.Navigate(typeof(Store));
         }
-
-        private void MenuButton7_Click(object sender, RoutedEventArgs e)
-        {
-            Frame.Navigate(typeof(MyCollection));
-        }
-
+        
         private void MenuButton5_Click(object sender, RoutedEventArgs e)
         {
             Frame.Navigate(typeof(About));
@@ -159,63 +154,12 @@ namespace Heist
 
         private async void Button_Click(object sender, RoutedEventArgs e)
         {
-            await Check_Exist();
+          
             LoadingBar.IsEnabled = true;
             LoadingBar.Visibility = Visibility.Visible;
-            App.mc.Clear();  
-            string sn = "";
-            MeriCollection l = new MeriCollection();
-            l.BookName = rec.Name;
-            l.UserName = testlol;
-            sn = JsonConvert.SerializeObject(l);
-            try
-            {
+            App.mc.Clear();
+            await Check_Exist();
 
-                StorageFolder mainFol = await ApplicationData.Current.LocalFolder.CreateFolderAsync(testlol + "My Collections", CreationCollisionOption.OpenIfExists);
-                if (mainFol != null)
-                {
-                    StorageFolder folder = await mainFol.CreateFolderAsync(rec.Name, CreationCollisionOption.OpenIfExists);
-                    if (folder != null)
-                    {
-                        Uri url = new Uri("https://streamerpdf.azurewebsites.net/downloads");
-                        HttpClient httpClient = new HttpClient();
-
-                        foreach (string s in Chap)
-                        {
-                            HttpResponseMessage httpResponse = new HttpResponseMessage();
-                            var content = new FormUrlEncodedContent(new[]
-                             {
-                                  new KeyValuePair<string, string>("id", s)
-                             });
-                            httpResponse = await httpClient.PostAsync(url, content);
-                            httpResponse.EnsureSuccessStatusCode();
-                            Stream str = await httpResponse.Content.ReadAsStreamAsync();
-                            byte[] pd = new byte[str.Length];
-                            str.Read(pd, 0, pd.Length);
-                            items = await Table.Where(Chapter
-                                  => Chapter.Id == s).ToCollectionAsync();
-                            StorageFile file = await folder.CreateFileAsync((items[0].Name) + ".txt", CreationCollisionOption.ReplaceExisting);
-                            using (var fileStream = await file.OpenStreamForWriteAsync())
-                            {
-                                str.Seek(0, SeekOrigin.Begin);
-                                await str.CopyToAsync(fileStream);
-                            }
-                        }
-                        StorageFile useFile =
-                      await folder.CreateFileAsync("UserName.txt", CreationCollisionOption.ReplaceExisting);
-                        await Windows.Storage.FileIO.WriteTextAsync(useFile, sn);
-                    }
-                }
-                LoadingBar.Visibility = Visibility.Collapsed;
-                await (new MessageDialog("Your collection was made!!")).ShowAsync();
-                Frame.Navigate(typeof(MyCollection));
-            }
-            catch (Exception)
-            {
-                LoadingBar.Visibility = Visibility.Collapsed;
-                await (new MessageDialog("Your collection was not made:(:(")).ShowAsync();
-                Frame.Navigate(typeof(MyCollection));
-            }
         }
 
         private async Task Check_Exist()
@@ -225,11 +169,11 @@ namespace Heist
                 items3 = await Table3.Where(User
                                   => User.username == testlol).ToCollectionAsync();
                 User a = items3[0];
-                if (Chap.Count != 0)//
+                if (ChapPur.Count != 0)//
                 {
                     if (a.wallet > Price)
                     {
-                        foreach (string lol in Chap)//buying the chapters
+                        foreach (string lol in ChapPur)//buying the chapters
                         {
                             items = await Table.Where(Chapter
                               => Chapter.Id == lol).ToCollectionAsync();

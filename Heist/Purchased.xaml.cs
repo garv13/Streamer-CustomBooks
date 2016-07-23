@@ -189,10 +189,8 @@ namespace Heist
             Frame.Navigate(typeof(About));
         }
 
-        private void MenuButton7_Click(object sender, RoutedEventArgs e)
-        {
-            Frame.Navigate(typeof(MyCollection));
-        }
+      
+
         private async void MenuButton6_Click(object sender, RoutedEventArgs e)
         {
             await (new MessageDialog("You are successfully loged out :):)")).ShowAsync();
@@ -201,6 +199,7 @@ namespace Heist
 
         private void CreateColl_Click(object sender, RoutedEventArgs e)
         {
+            App.mc.Clear();
             Frame.Navigate(typeof(CreateCollection));
         }
 
