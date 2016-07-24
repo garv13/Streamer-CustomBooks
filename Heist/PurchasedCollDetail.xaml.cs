@@ -149,7 +149,12 @@ namespace Heist
                     {
                         try
                         {
-                            StorageFolder folder = await mainFol.CreateFolderAsync(b.Title, CreationCollisionOption.FailIfExists);
+                            string titl = b.Title;
+                            char c = titl.ElementAt(titl.Length - 1);
+                            titl.Replace('.', ' ');
+                           
+                            
+                            StorageFolder folder = await mainFol.CreateFolderAsync(titl, CreationCollisionOption.FailIfExists);
                             if (folder != null)
                             {
                                 StorageFile useFile =

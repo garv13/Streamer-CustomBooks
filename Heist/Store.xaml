@@ -97,12 +97,14 @@
                         <Grid.RowDefinitions>
                             <RowDefinition Height="0.06*"/>
                             <RowDefinition Height="*"/>
+                           
                         </Grid.RowDefinitions>
                         <ProgressBar Grid.RowSpan="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" x:Name="LoadingBar"/>
                         <Grid Grid.Row="1">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="0.1*"/>
                                 <RowDefinition Height="0.9*"/>
+                                <RowDefinition Height="0.1*"/>
                             </Grid.RowDefinitions>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="0.9*"/>
@@ -134,6 +136,15 @@
                         Visibility="Visible"
                       >
                             </GridView>
+                            <Grid Grid.Row="2">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="0.3*"/>
+                                    <ColumnDefinition Width="0.3*"/>
+                                    <ColumnDefinition Width="0.3*"/>
+                                </Grid.ColumnDefinitions>
+                            <HyperlinkButton Margin="15"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Column="0"  Click="HyperlinkButton_Click_1" Content="Previous page" FontSize="{StaticResource SplitViewLargeNavFontSize}" Foreground="White" />
+                            <HyperlinkButton Margin="15"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Column="3" Click="HyperlinkButton_Click"  Content="Next Page" FontSize="{StaticResource SplitViewLargeNavFontSize}" Foreground="White" />
+                            </Grid>
                         </Grid>
                     </Grid>
                 </PivotItem>

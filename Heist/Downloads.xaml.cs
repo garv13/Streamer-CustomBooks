@@ -325,7 +325,9 @@ namespace Heist
                     TitlBox.Text = "About Me";
                     return;
                 }
-              if((ob.userName.CompareTo(testlol) != 0))
+                ob.userName = ob.userName.ToUpper();
+                
+              if((ob.userName.CompareTo(testlol.ToUpper()) != 0))
                  {
                     await (new MessageDialog("Maybe this Pdf doesn't belong to you.If it does then download it again plzzz :):)")).ShowAsync();
                     Frame.Navigate(typeof(Downloads));
@@ -371,8 +373,8 @@ namespace Heist
                     fileStream.Read(buffer, 0, buffer.Length);
                     goto p;
                 }
-
-                if ((ob.userName.CompareTo(testlol) != 0))
+                ob.userName = ob.userName.ToUpper();
+                if ((ob.userName.CompareTo(testlol.ToUpper()) != 0))
                 {
                     await (new MessageDialog("Maybe this Pdf doesn't belong to you.If it does then download it again plzzz :):)")).ShowAsync();
                     Frame.Navigate(typeof(Downloads));

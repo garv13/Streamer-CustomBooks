@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.System;
@@ -27,7 +28,7 @@ namespace Heist
     {
         private IMobileServiceTable<Book> Table = App.MobileService.GetTable<Book>();
         private MobileServiceCollection<Book, Book> items;
-
+        private int page = 0;
         private IMobileServiceTable<Collections> Table2 = App.MobileService.GetTable<Collections>();
         private MobileServiceCollection<Collections, Collections> items2;
 
@@ -44,26 +45,56 @@ namespace Heist
 
         private async void Store_Loaded(object sender, RoutedEventArgs e)
         {
-            Box.Visibility = Visibility.Collapsed;
-            SearchButton.Visibility = Visibility.Collapsed;
-            StoreListView.Visibility = Visibility.Collapsed;
+            await lol(0);
 
             Box2.Visibility = Visibility.Collapsed;
             SearchButton2.Visibility = Visibility.Collapsed;
             StoreListView2.Visibility = Visibility.Collapsed;
 
 
-            BookNames = new List<string>();
+           
             CollNames = new List<string>();
 
-            StoreList = new List<StoreListing>();
+            
 
 
             LoadingBar.IsIndeterminate = true;
+            
+
+                items2 = await Table2.ToCollectionAsync();
+                foreach (Collections lol2 in items2)
+                {
+                    // temp = new StoreListing();
+                    CollNames.Add(lol2.Name);
+                }
+
+
+               
+               
+
+              
+                StoreListView2.ItemsSource = items2;
+
+
+               
+                Box2.Visibility = Visibility.Visible;
+                StoreListView2.Visibility = Visibility.Visible;
+                SearchButton2.Visibility = Visibility.Visible;
+                LoadingBar2.Visibility = Visibility.Collapsed;
+
+            }
+
+        private async Task lol(int l)
+        {
+            Box.Visibility = Visibility.Collapsed;
+            SearchButton.Visibility = Visibility.Collapsed;
+            StoreListView.Visibility = Visibility.Collapsed;
+            BookNames = new List<string>();
+            StoreList = new List<StoreListing>();
             StoreListing temp;
             try
             {
-                items = await Table.Take(15).Where(Book
+                items = await Table.Skip(l*15).Take(15).Where(Book
                         => Book.IsReady == true).ToCollectionAsync();
                 foreach (Book lol in items)
                 {
@@ -77,32 +108,6 @@ namespace Heist
                     temp.desc = lol.Description;
                     StoreList.Add(temp);
                 }
-
-                items2 = await Table2.ToCollectionAsync();
-                foreach (Collections lol2 in items2)
-                {
-                    // temp = new StoreListing();
-                    CollNames.Add(lol2.Name);
-                }
-
-
-               
-               
-
-                StoreListView.ItemsSource = StoreList;
-                StoreListView2.ItemsSource = items2;
-
-
-                Box.Visibility = Visibility.Visible;
-                StoreListView.Visibility = Visibility.Visible;
-                SearchButton.Visibility = Visibility.Visible;
-                LoadingBar.Visibility = Visibility.Collapsed;
-
-                Box2.Visibility = Visibility.Visible;
-                StoreListView2.Visibility = Visibility.Visible;
-                SearchButton2.Visibility = Visibility.Visible;
-                LoadingBar2.Visibility = Visibility.Collapsed;
-
             }
             catch (Exception)
             {
@@ -110,7 +115,14 @@ namespace Heist
                 await msgbox.ShowAsync();
                 LoadingBar.Visibility = Visibility.Collapsed;
             }
+            StoreListView.ItemsSource = StoreList;
+            Box.Visibility = Visibility.Visible;
+            StoreListView.Visibility = Visibility.Visible;
+            SearchButton.Visibility = Visibility.Visible;
+            LoadingBar.Visibility = Visibility.Collapsed;
+
         }
+
         private void HamburgerButton_Click(object sender, RoutedEventArgs e)
         {
             MySplitView.IsPaneOpen = !MySplitView.IsPaneOpen;
@@ -231,6 +243,23 @@ namespace Heist
             Collections sent = e.ClickedItem as Collections;
             //sent.Price = 50.ToString();
             Frame.Navigate(typeof(CollDetail), sent);
+        }
+
+        private async void HyperlinkButton_Click_1(object sender, RoutedEventArgs e)
+        {
+            if (page > 0)
+
+            {
+                page--;
+                await lol(page);
+            }
+        }
+
+        private async void HyperlinkButton_Click(object sender, RoutedEventArgs e)
+        {
+            page++;
+            await lol(page);
+           
         }
     }
 }
