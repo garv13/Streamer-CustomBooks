@@ -77,5 +77,26 @@ namespace Heist
                 return null;
             }
         }
+
+
+        public string Not_For_This(string inp)
+        {
+            string ma = inp;
+            ma = ma.Replace("<", "");
+            ma = ma.Replace(">", "");
+            ma = ma.Replace(":", "");
+            ma = ma.Replace("\"", "");
+            ma = ma.Replace("/", "");
+            ma = ma.Replace(@"\", "");
+            ma = ma.Replace("|", "");
+            ma = ma.Replace("?", "");
+            ma = ma.Replace("*", "");
+            ma = ma.Replace(".", "");
+            ma = ma.Trim();
+            if (ma.Length > 100)
+                ma = ma.Remove(100);
+            return ma;
+        }
+
     }
 }

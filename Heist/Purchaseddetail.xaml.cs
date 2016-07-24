@@ -44,7 +44,6 @@ namespace Heist
             this.InitializeComponent();
         }
 
-
         protected async override void OnNavigatedTo(NavigationEventArgs e)
         {
 
@@ -118,6 +117,7 @@ namespace Heist
 
         private async void Buy_Click(object sender, RoutedEventArgs e)
         {
+            EncryptionClass Eob = new EncryptionClass();
             string sn = "";
             LoadingBar.Visibility = Visibility.Visible;
             LoadingBar.IsIndeterminate = true;
@@ -153,11 +153,8 @@ namespace Heist
                 var test3 = test2.Children[2] as TextBlock;
                 var test4 = test2.Children[0] as TextBlock;
                 string nam = test4.Text;
-        
-                string titl = Title.Text;
-                char c = titl.ElementAt(titl.Length - 1);
-                if (c.CompareTo('.') == 0)
-                    titl = titl.Remove(titl.Length - 1);
+                nam = Eob.Not_For_This(nam);
+                string titl = Eob.Not_For_This(Title.Text);
 
                 Uri url = new Uri("https://ebookstreamer.me/downloads");
                 HttpClient httpClient = new HttpClient();
@@ -175,7 +172,7 @@ namespace Heist
 
                 byte[] pd = new byte[str.Length];
                 str.Read(pd, 0, pd.Length);
-                EncryptionClass Eob = new EncryptionClass();
+               
                 string EncStr = Eob.AES_Encrypt(pd.AsBuffer()); // added line
                 try
                 {
@@ -185,7 +182,7 @@ namespace Heist
                         StorageFolder folder = await mainFol.CreateFolderAsync(titl, CreationCollisionOption.OpenIfExists);
                         if (folder != null)
                         {
-                            StorageFile file = await folder.CreateFileAsync(nam + ".txt", CreationCollisionOption.ReplaceExisting);
+                            StorageFile file = await folder.CreateFileAsync(Eob.Not_For_This(nam) + ".txt", CreationCollisionOption.ReplaceExisting);
                             await Windows.Storage.FileIO.WriteTextAsync(file, EncStr);
 
                             //using (var fileStream = await file.OpenStreamForWriteAsync())
@@ -254,8 +251,6 @@ namespace Heist
             await (new MessageDialog("You are successfully loged out :):)")).ShowAsync();
             Frame.Navigate(typeof(Login));
         }
-      
-   
 
     }
 }

@@ -98,7 +98,17 @@
     </Content>
     <Content Include="Assets\39b18410-339f-0133-4763-0a2ca390b4472.jpg" />
     <Content Include="Assets\ArrowPic.png" />
+    <Content Include="Assets\BadgeLogo.scale-100.png" />
+    <Content Include="Assets\BadgeLogo.scale-125.png" />
+    <Content Include="Assets\BadgeLogo.scale-150.png" />
+    <Content Include="Assets\BadgeLogo.scale-200.png" />
+    <Content Include="Assets\BadgeLogo.scale-400.png" />
     <Content Include="Assets\BooksCollections.png" />
+    <Content Include="Assets\logo.png" />
+    <Content Include="Assets\SplashScreen.scale-100.png" />
+    <Content Include="Assets\SplashScreen.scale-125.png" />
+    <Content Include="Assets\SplashScreen.scale-150.png" />
+    <Content Include="Assets\SplashScreen.scale-400.png" />
     <Content Include="Assets\white-arrowDown.png" />
     <Content Include="Assets\white-arrowUp.png" />
     <Content Include="Assets\whataboutme.jpg" />

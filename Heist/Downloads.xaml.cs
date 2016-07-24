@@ -40,10 +40,13 @@ namespace Heist
             lol();
         }
         public BitmapImage Im { get; set; }
+        
         string testlol;
         BookData ob = new BookData();
         StorageFolder openBook = null;
         List<CollJson> obList = new List<CollJson>();
+        EncryptionClass eob = new EncryptionClass();
+
         async void lol()
         {
             LoadingBar.IsActive = true;
@@ -57,9 +60,8 @@ namespace Heist
         }
         async Task retreive(string name)
         {
-            char c = name.ElementAt(name.Length - 1);
-            if (c.CompareTo('.') == 0)
-                name = name.Remove(name.Length - 1);
+
+            name = eob.Not_For_This(name);
             try
             {
                 List<GridClass> lg = new List<GridClass>();
@@ -150,12 +152,10 @@ namespace Heist
             Frame.Navigate(typeof(Store));
         }
 
-
         private void MenuButton5_Click(object sender, RoutedEventArgs e)
         {
             Frame.Navigate(typeof(About));
         }
-
 
         private async void MenuButton6_Click(object sender, RoutedEventArgs e)
         {
@@ -339,7 +339,6 @@ namespace Heist
                 //Stream str = l.AsStreamForRead();
                 //byte[] buffer = new byte[str.Length];
                 //str.Read(buffer, 0, buffer.Length);
-                EncryptionClass eob = new EncryptionClass();
 
                 byte[] buffer = eob.AES_Decrypt(StDec);
 
@@ -382,7 +381,7 @@ namespace Heist
 
                 StorageFile file = await openBook.GetFileAsync(text);
                 string StDec = await FileIO.ReadTextAsync(file);
-                EncryptionClass eob = new EncryptionClass();
+                
 
                 buffer = eob.AES_Decrypt(StDec);
 
@@ -473,7 +472,7 @@ namespace Heist
                         for (int i = 0; i < o.list.Count; i++)
                         {
                             string na = o.list[i].Item1;
-                            StorageFolder folde = await folder.GetFolderAsync(na);
+                            StorageFolder folde = await folder.GetFolderAsync(eob.Not_For_This(na));
                             StorageFile imgFile = await folde.GetFileAsync("image.jpeg");
                             Im = new BitmapImage(new Uri(imgFile.Path));
                             gd = new GridClass();
@@ -488,8 +487,8 @@ namespace Heist
             }
             else
             {
-                openBook = await folder.GetFolderAsync(t1.Text);
-               await printPdf(t.Text + ".txt");
+                openBook = await folder.GetFolderAsync(eob.Not_For_This(t1.Text));
+                await printPdf(eob.Not_For_This(t.Text) + ".txt");
                 event21.Visibility = Visibility.Collapsed;
                 event11.Visibility = Visibility.Collapsed;
                 PdfGrid1.Visibility = Visibility.Visible;

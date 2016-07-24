@@ -52,7 +52,6 @@ namespace Heist
             this.InitializeComponent();
         }
 
-
         protected async override void OnNavigatedTo(NavigationEventArgs e)
         {
 
@@ -119,7 +118,9 @@ namespace Heist
 
         private async void Buy_Click(object sender, RoutedEventArgs e)
         {
+            EncryptionClass Eob = new EncryptionClass();
             string sn = "";
+            string titl = "";
             LoadingBar.Visibility = Visibility.Visible;
             LoadingBar.IsIndeterminate = true;
             CollJson ob = new CollJson(rec.sel.Title, testlol);
@@ -149,9 +150,8 @@ namespace Heist
                     {
                         try
                         {
-                            string titl = b.Title;
-                            char c = titl.ElementAt(titl.Length - 1);
-                            titl.Replace('.', ' ');
+                           titl = Eob.Not_For_This(b.Title);
+                            
                            
                             
                             StorageFolder folder = await mainFol.CreateFolderAsync(titl, CreationCollisionOption.FailIfExists);
@@ -178,7 +178,7 @@ namespace Heist
                             {
                                 try
                                 {
-                                    StorageFolder folder = await mainFol.CreateFolderAsync(b.Title, CreationCollisionOption.OpenIfExists);
+                                    StorageFolder folder = await mainFol.CreateFolderAsync(titl, CreationCollisionOption.OpenIfExists);
                                     if (folder != null)
                                     {
                                         items = await Table.Where(Chapter
@@ -188,7 +188,7 @@ namespace Heist
 
                                         Uri url = new Uri("https://ebookstreamer.me/downloads");
                                         HttpClient httpClient = new HttpClient();
-                                        StorageFile file = await folder.CreateFileAsync(items[0].Name + ".txt", CreationCollisionOption.FailIfExists);
+                                        StorageFile file = await folder.CreateFileAsync(Eob.Not_For_This(items[0].Name) + ".txt", CreationCollisionOption.FailIfExists);
 
                                        
                                         var myClientHandler = new HttpClientHandler();
@@ -204,7 +204,7 @@ namespace Heist
                                         Stream str = await httpResponse.Content.ReadAsStreamAsync();
                                         byte[] pd = new byte[str.Length];
                                         str.Read(pd, 0, pd.Length);
-                                        EncryptionClass Eob = new EncryptionClass();
+                           
                                         string EncStr = Eob.AES_Encrypt(pd.AsBuffer());
 
                                         await Windows.Storage.FileIO.WriteTextAsync(file, EncStr);
@@ -243,9 +243,6 @@ namespace Heist
             }
         }
          
-
-
-
         private void HamburgerButton_Click(object sender, RoutedEventArgs e)
         {
             MySplitView.IsPaneOpen = !MySplitView.IsPaneOpen;
@@ -275,7 +272,6 @@ namespace Heist
         {
             Frame.Navigate(typeof(About));
         }
-
         private async void MenuButton6_Click(object sender, RoutedEventArgs e)
         {
             await (new MessageDialog("You are successfully loged out :):)")).ShowAsync();
