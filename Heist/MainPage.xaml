@@ -53,19 +53,19 @@
 
             <Grid Background="#292929">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="0.06*"/>
+                    <RowDefinition Height="0.1*"/>
                     <RowDefinition Height="0.94*"/>
                 </Grid.RowDefinitions>
                 <ProgressBar x:Name="Loading" Grid.RowSpan="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Visibility="Collapsed"/>
                 <Border Background="#292929" Grid.Row="0">
-                    <TextBlock FontSize="36" Foreground="#CCCCCC"  Text="   Wallet"  />
+                    <TextBlock  Foreground="#CCCCCC"  Text="   Wallet"  />
                 </Border>
-                <Grid Grid.Row="1" Margin="5,0,0,0">
+                <Grid Grid.Row="1" >
                     <Grid.RowDefinitions>
                         <RowDefinition Height="0.1*"/>
-                        <RowDefinition Height="0.1*"/>
+                        <RowDefinition Height="0.3*"/>
                         <RowDefinition Height="0.2*"/>
-                        <RowDefinition Height="0.1*"/>
+                        <RowDefinition Height="0.3*"/>
                         <RowDefinition Height="0.2*"/>
                         <RowDefinition Height="0.2*"/>
                     </Grid.RowDefinitions>

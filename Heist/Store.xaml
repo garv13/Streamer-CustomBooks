@@ -95,12 +95,12 @@
                 <PivotItem Header="Books" Foreground="White">
                     <Grid Background="#292929">
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="0.06*"/>
+                            
                             <RowDefinition Height="*"/>
                            
                         </Grid.RowDefinitions>
                         <ProgressBar Grid.RowSpan="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" x:Name="LoadingBar"/>
-                        <Grid Grid.Row="1">
+                        <Grid Grid.Row="0">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="0.1*"/>
                                 <RowDefinition Height="0.9*"/>
@@ -114,8 +114,8 @@
                             <TextBox VerticalAlignment="Stretch" Background="#B5B5B5" HorizontalAlignment="Stretch"
                                       x:Name="Box"   
                                       
-                          Margin="0,20" />
-                            <Button x:Name="SearchButton" Click="Button_Click" Grid.Column="1" Background="#0D4FB5" Foreground="White" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="0,20">
+                           />
+                            <Button x:Name="SearchButton" Click="Button_Click" Grid.Column="1" Background="#0D4FB5" Foreground="White" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" >
                                 <Image HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Source="Assets/search-icon-hi.png"/>
                             </Button>
                             <GridView         
