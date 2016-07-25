@@ -74,7 +74,7 @@
                     <TextBlock Grid.Row="2" x:Name="balance" Foreground="#D9D9D9" Text="" Margin="30,0,0,0" FontSize="25"/>
                     <TextBlock Grid.Row="3" Text="Add Money: " HorizontalAlignment="Center" Foreground="#975858" FontSize="23" Tapped="TextBlock_Tapped"/>
                     <TextBox PlaceholderText="Enter amount" Grid.Row="4" x:Name="Funds" Text="" HorizontalAlignment="Center" VerticalAlignment="Top" InputScope="Digits" Background="#B5B5B5" BorderThickness="0" FontSize="25" Visibility="Collapsed"/>
-                    <Button x:Name="MoneyAdd" Grid.Row="5" Content="Add" Click="Button_Click" Background="Transparent" Foreground="#8CBDF3" HorizontalAlignment="Center" Margin="10" FontSize="25" Visibility="Collapsed"/>
+                    <Button x:Name="MoneyAdd" Grid.Row="5" Content="Add" Click="Button_Click" Background="Transparent" Foreground="#8CBDF3" HorizontalAlignment="Center" FontSize="25" Visibility="Collapsed"/>
                 </Grid>
             </Grid>
         </SplitView.Content>

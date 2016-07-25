@@ -14,7 +14,7 @@
             </ResourceDictionary.MergedDictionaries>
 
             <DataTemplate x:Key="Standard3100x260ItemTemplate" ScrollViewer.VerticalScrollMode="Auto" ScrollViewer.VerticalScrollBarVisibility="Auto">
-                <Grid Margin="0,10,0,0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
 
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="0.05*"/>
@@ -25,8 +25,8 @@
                         <ColumnDefinition Width="0.3*"/>
                         <ColumnDefinition Width="0.1*"/>
                     </Grid.ColumnDefinitions>
-                    <TextBlock x:Name="Title" Text="{Binding Title}" FontFamily="Rockwell" TextWrapping="WrapWholeWords" FontSize="23" Foreground="White" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="5,0,0,0"/>
-                    <TextBlock x:Name="Price" Text="{Binding Price}" FontFamily="Rockwell" Margin="12,0,0,0" FontSize="20" Foreground="White" Grid.Column="3" HorizontalAlignment="Left" VerticalAlignment="Center" />
+                    <TextBlock x:Name="Title" Text="{Binding Title}" FontFamily="Rockwell" TextWrapping="WrapWholeWords" FontSize="17" Foreground="White" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="5,0,0,0"/>
+                    <TextBlock x:Name="Price" Text="{Binding Price}" FontFamily="Rockwell" Margin="12,0,0,0" FontSize="15" Foreground="White" Grid.Column="3" HorizontalAlignment="Left" VerticalAlignment="Center" />
                     <Button x:Name="Buy" Content="Buy" Margin="12,0,0,0" FontFamily="Rockwell" FontSize="15" Background="Transparent" Foreground="#A5C4FF" HorizontalAlignment="Left" VerticalAlignment="Center" Click="Buy_Click" Grid.Column="5"/>
                     <TextBlock x:Name="id" Visibility="Collapsed" Text="{Binding Id}"/>
                 </Grid>
@@ -47,8 +47,8 @@
                 <RadioButton x:Name="MenuButton3" Tag="" Content="Purchased" Style="{StaticResource SplitViewNavButtonStyle}"
                         Click="MenuButton3_Click"/>
 
-               
-                         
+
+
 
                 <RadioButton x:Name="MenuButton4" Tag="" Content="Store"
                         IsChecked="True" Style="{StaticResource SplitViewNavButtonStyle}" Click="MenuButton4_Click"/>
@@ -74,7 +74,7 @@
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
                 <ProgressBar HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="2" x:Name="LoadingBar"/>
-                <TextBlock Text="Store Details" Foreground="#CCCCCC" FontSize="20" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="5,5,0,0"/>
+                <TextBlock Text="Store Details" Foreground="#CCCCCC" FontSize="20" VerticalAlignment="Center" HorizontalAlignment="Left"/>
                 <Grid x:Name="descBoxGrid" Grid.Row="1">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="0.4*"/>
@@ -86,19 +86,19 @@
                     </Grid.ColumnDefinitions>
                     <Grid Grid.ColumnSpan="2">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="0.1*"/>
+                            <ColumnDefinition Width="0"/>
                             <ColumnDefinition Width="0.3*"/>
-                            <ColumnDefinition Width="0.6*"/>
+                            <ColumnDefinition Width="0.7*"/>
                         </Grid.ColumnDefinitions>
                         <Grid Grid.Column="2">
                             <Grid.RowDefinitions>
-                                <RowDefinition Height="0.1*"/>
+                                <RowDefinition Height="0.01*"/>
                                 <RowDefinition Height="0.3*"/>
                                 <RowDefinition Height="0.3*"/>
                                 <RowDefinition Height="0.3*"/>
-                                <RowDefinition Height="0.1*"/>
+                                <RowDefinition Height="0.01*"/>
                             </Grid.RowDefinitions>
-                            <TextBlock x:Name="Title" Text="Title" FontFamily="Bodoni Regular" TextWrapping="WrapWholeWords" FontSize="25" VerticalAlignment="Center" HorizontalAlignment="Left" Grid.Row="1"/>
+                            <TextBlock x:Name="Title" Text="Title" FontFamily="Bodoni Regular" TextWrapping="WrapWholeWords" FontSize="20" VerticalAlignment="Center" HorizontalAlignment="Stretch" Grid.Row="1"/>
                             <TextBlock x:Name="Author" Text="Author" FontFamily="Bodoni Regular" TextWrapping="WrapWholeWords" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="20" Grid.Row="2"/>
                             <Grid Grid.Row="3">
                                 <Grid.ColumnDefinitions>
@@ -106,12 +106,12 @@
                                     <ColumnDefinition Width="0.5*"/>
 
                                 </Grid.ColumnDefinitions>
-                                <TextBlock x:Name="FullCost" TextWrapping="WrapWholeWords" IsTextScaleFactorEnabled="True" HorizontalAlignment="Left" VerticalAlignment="Center" FontFamily="Bodoni Regular" Text="Full Book Cost:" FontSize="25"/>
+                                <TextBlock x:Name="FullCost" TextWrapping="WrapWholeWords" IsTextScaleFactorEnabled="True" HorizontalAlignment="Left" VerticalAlignment="Center" FontFamily="Bodoni Regular" Text="Full Book Cost:" FontSize="20"/>
                                 <Button Click="Button_Click" IsTextScaleFactorEnabled="True" HorizontalAlignment="Left" VerticalAlignment="Stretch" UseSystemFocusVisuals="True" Grid.Column="1" Foreground="#F9FFD2" Background="Transparent" Content="Buy Full Book" FontSize="20"/>
                             </Grid>
 
                         </Grid>
-                        <Image x:Name="Cover" Grid.Column="1" VerticalAlignment="Stretch" Stretch="Uniform"  HorizontalAlignment="Stretch" Margin="10"/>
+                        <Image x:Name="Cover" VerticalAlignment="Stretch" Stretch="Uniform"  HorizontalAlignment="Stretch" Grid.ColumnSpan="2"/>
                     </Grid>
                     <ListView         
                         Grid.Row="1"
@@ -146,8 +146,8 @@
                                 <RowDefinition Height="0.2*"/>
                                 <RowDefinition Height="0.8*"/>
                             </Grid.RowDefinitions>
-                            <TextBlock Text="Description" FontSize="22" Margin="0,5,0,0" TextWrapping="WrapWholeWords" IsTextScaleFactorEnabled="True" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="White"/>
-                            <TextBlock x:Name="DescBlock" Grid.Row="1" Foreground="White" TextWrapping="WrapWholeWords" HorizontalAlignment="Left" VerticalAlignment="Stretch" FontSize="18" Margin="3,5,2,5" Text="{Binding}"/>
+                            <TextBlock Text="Description" FontSize="22" TextWrapping="WrapWholeWords" IsTextScaleFactorEnabled="True" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="White"/>
+                            <TextBlock x:Name="DescBlock" Grid.Row="1" Foreground="White" TextWrapping="WrapWholeWords" HorizontalAlignment="Left" VerticalAlignment="Stretch" FontSize="18" Text="{Binding}"/>
                         </Grid>
                     </Grid>
                 </Grid>

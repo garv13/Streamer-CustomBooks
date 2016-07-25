@@ -54,9 +54,6 @@
 
                 </Grid>
             </DataTemplate>
-
-
-
         </ResourceDictionary>
         </Page.Resources>
 
@@ -73,9 +70,7 @@
                 <RadioButton x:Name="MenuButton3" Tag="" Content="Purchased" Style="{StaticResource SplitViewNavButtonStyle}"
                         Click="MenuButton3_Click"/>
 
-               
-                         
-
+                                   
                 <RadioButton x:Name="MenuButton4" Tag="" Content="Store"  IsChecked="True"
                          Style="{StaticResource SplitViewNavButtonStyle}" Click="MenuButton4_Click"/>
 
@@ -155,7 +150,6 @@
                             <RowDefinition Height="*"/>
                         </Grid.RowDefinitions>
                         <ProgressBar Grid.RowSpan="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" x:Name="LoadingBar2"/>
-                        <TextBlock Text="Store" Foreground="#CCCCCC" FontSize="20" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="5,5,0,0"/>
                         <Grid Grid.Row="1">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="0.1*"/>
@@ -167,10 +161,8 @@
                             </Grid.ColumnDefinitions>
 
                             <TextBox VerticalAlignment="Stretch" Background="#B5B5B5" HorizontalAlignment="Stretch"
-                                      x:Name="Box2"   
-                                      
-                          Margin="0,20" />
-                            <Button x:Name="SearchButton2" Click="SearchButton2_Click"  Grid.Column="1" Background="#0D4FB5" Foreground="White" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="0,20">
+                                      x:Name="Box2" />
+                            <Button x:Name="SearchButton2" Click="SearchButton2_Click"  Grid.Column="1" Background="#0D4FB5" Foreground="White" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
                                 <Image HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Source="Assets/search-icon-hi.png"/>
                             </Button>
                             <GridView         

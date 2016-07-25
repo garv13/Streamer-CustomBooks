@@ -67,7 +67,6 @@
 
                 </Grid.ColumnDefinitions>
                 <TextBlock Grid.ColumnSpan="2" Grid.Column="2" Grid.Row="1" Margin="50"  Text="Your collection was created succesfully" FontSize="46" Foreground="Gray" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
-                <Button Background="#FF064629" Content="Go to my Collections" HorizontalAlignment="Stretch" Margin="50" VerticalAlignment="Stretch" Grid.Column="3" Grid.Row="2" Click="Button_Click_1"/>
                 <ProgressRing Grid.ColumnSpan="4" Grid.RowSpan="4" x:Name="LoadingBar" Visibility="Collapsed" Height="40" Width="40" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
             </Grid>
         </SplitView.Content>

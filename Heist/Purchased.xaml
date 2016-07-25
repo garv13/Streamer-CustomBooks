@@ -78,7 +78,7 @@
                             <RowDefinition Height="0.06*"/>
                             <RowDefinition Height="*"/>
                         </Grid.RowDefinitions>
-                        <TextBlock Text="Purchased" Foreground="#CCCCCC" FontSize="20" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="5,0,0,4"/>
+                        <TextBlock Text="Purchased" Foreground="#CCCCCC" FontSize="20" VerticalAlignment="Bottom" HorizontalAlignment="Left"/>
                         <TextBlock x:Name="noPurchase" Visibility="Collapsed" Text="" Foreground="#FFFFFF" FontSize="18" Grid.Row="1" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="15,15,0,0"/>
                         <Grid Grid.Row="1">
                             <Grid.RowDefinitions>
@@ -120,7 +120,7 @@
                             <RowDefinition Height="0.06*"/>
                             <RowDefinition Height="*"/>
                         </Grid.RowDefinitions>
-                        <TextBlock Text="Purchased" Foreground="#CCCCCC" FontSize="20" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="5,0,0,4"/>
+                        <TextBlock Text="Purchased" Foreground="#CCCCCC" FontSize="20" VerticalAlignment="Bottom" HorizontalAlignment="Left"/>
                         <TextBlock x:Name="noPurchase1" Visibility="Collapsed" Text="" Foreground="#FFFFFF" FontSize="18" Grid.Row="1" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="15,15,0,0"/>
                         <Grid Grid.Row="1">
                             <Grid.RowDefinitions>
